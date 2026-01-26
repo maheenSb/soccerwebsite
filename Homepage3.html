@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Soccer Hub – Mixed Neon Theme</title>
+
+<style>
+body {
+  background:#0b0f12;
+  color:white;
+  font-family:Arial, sans-serif;
+  margin:0;
+  padding:20px;
+}
+
+/* Search Bar */
+.search-box input {
+  width:100%;
+  padding:15px;
+  font-size:18px;
+  border:2px solid #00aaff;
+  background:#111;
+  color:white;
+  border-radius:8px;
+  outline:none;
+}
+.search-box input:focus {
+  box-shadow:0 0 10px #00aaff;
+}
+
+/* Quick Links */
+.quick-links {
+  margin-top:25px;
+  display:flex;
+  gap:15px;
+}
+.quick-links a {
+  flex:1;
+  text-align:center;
+  padding:15px;
+  background:#111;
+  border:2px solid #39ff14;
+  color:#39ff14;
+  text-decoration:none;
+  font-weight:bold;
+  border-radius:8px;
+}
+.quick-links a:hover {
+  background:#39ff14;
+  color:#000;
+}
+
+/* Featured Tournaments */
+.tournaments {
+  margin-top:35px;
+}
+.tournament-card {
+  background:#111;
+  border-left:5px solid #00aaff;
+  padding:15px;
+  margin-bottom:15px;
+  border-radius:6px;
+}
+.tournament-card a {
+  color:#39ff14;
+  text-decoration:underline;
+}
+</style>
+</head>
+
+<body>
+
+<h1 style="color:#00aaff;">Soccer Info Hub</h1>
+
+<div class="search-box">
+  <input type="text" placeholder="Search teams, tournaments, brackets...">
+</div>
+
+<div class="quick-links">
+  <a href="#">Teams</a>
+  <a href="#">Tournaments</a>
+  <a href="#">Brackets</a>
+  <a href="#">Opponents</a>
+</div>
+
+<div class="tournaments">
+  <h2 style="color:#39ff14;">Featured Tournaments</h2>
+
+  <div class="tournament-card">
+    Jefferson Cup 2025 — <a href="#">View Page</a>
+  </div>
+
+  <div class="tournament-card">
+    Bethesda Premier Cup — <a href="#">View Page</a>
+  </div>
+
+  <div class="tournament-card">
+    ECNL RL Events — <a href="#">View Page</a>
+  </div>
+</div>
+
+</body>
+</html>
