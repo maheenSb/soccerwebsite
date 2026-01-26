@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Virginia Soccer Website</title>
+<style>
+body { font-family: Arial, sans-serif; margin:0; background:#f4f6f8; }
+header { background:#0b1c2d; color:white; padding:20px; text-align:center; }
+nav { background:#1a4fa3; padding:10px; text-align:center; }
+nav a { color:white; margin:0 15px; font-weight:bold; text-decoration:none; cursor:pointer; }
+nav a:hover { text-decoration:underline; }
+.container { padding:20px; max-width:1000px; margin:auto; background:white; box-shadow:0 0 10px #ccc; }
+table { width:100%; border-collapse:collapse; margin-top:15px; }
+th, td { border:1px solid #ccc; padding:10px; text-align:left; }
+th { background:#1a4fa3; color:white; }
+tr:nth-child(even) { background:#f2f2f2; }
+.hidden { display:none; }
+h2, h3 { color:#1a4fa3; margin-top:20px; }
+.logo { width:120px; height:auto; margin:10px 0; }
+a.team-link { color:#1a4fa3; font-weight:bold; cursor:pointer; text-decoration:underline; }
+ul { margin-top:0; }
+</style>
+</head>
+
+<body>
+
+<header>
+  <h1>Virginia Soccer Website</h1>
+</header>
+
+<nav>
+  <a onclick="showSection('home')">Home</a>
+  <a onclick="showSection('schedule')">Tournament Schedule</a>
+  <a onclick="showSection('richmond')">Richmond United</a>
+  <a onclick="showSection('sta')">STA 2010 ECNL</a>
+  <a onclick="showSection('arlington')">Arlington SA</a>
+</nav>
+
+<div class="container">
+
+<!-- HOME SECTION -->
+<div id="home">
+  <h2>Jefferson Cup 2025 Results</h2>
+
+  <select id="genderFilter" onchange="showResults()">
+    <option value="All">All</option>
+    <option value="Boys">Boys</option>
+    <option value="Girls">Girls</option>
+  </select>
+
+  <select id="ageFilter" onchange="showResults()">
+    <option value="All">All Ages</option>
+    <option value="U15">U15</option>
+    <option value="U16">U16</option>
+    <option value="U17">U17</option>
+    <option value="U19">U19</option>
+  </select>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Gender</th>
+        <th>Age</th>
+        <th>Team</th>
+        <th>Record</th>
+      </tr>
+    </thead>
+    <tbody id="resultsTable"></tbody>
+  </table>
+</div>
+
+<!-- TOURNAMENT SCHEDULE SECTION -->
+<div id="schedule" class="hidden">
+  <h2>Jefferson Cup 2025 Tournament Schedule</h2>
+  <p>Main weekends for the Jefferson Cup competition in Richmond, Virginia:</p>
+  <table>
+    <tr><th>Event</th><th>Dates</th></tr>
+    <tr><td>Boys Weekend (U9–U14)</td><td>March 8–9, 2025</td></tr>
+    <tr><td>Girls Weekend (U9–U14)</td><td>March 15–16, 2025</td></tr>
+    <tr><td>Girls Showcase (U15–U19)</td><td>March 21–23, 2025</td></tr>
+    <tr><td>Boys Showcase (U15–U19)</td><td>March 28–30, 2025</td></tr>
+  </table>
+</div>
+
+<!-- TEAM SECTIONS -->
+
+<!-- Richmond United FULL CONTENT -->
+<div id="richmond" class="hidden">
+  <h2>Richmond United Soccer Club</h2>
+  <img src="richmond_united_logo.png" class="logo" alt="Richmond United Logo">
+  <h3>Welcome to RU</h3>
+
+  <h4>About Richmond United</h4>
+  <p>
+    Richmond United is one of the largest youth soccer clubs in the United States,
+    formed by the merger of the Richmond Strikers and Richmond Kickers Youth programs. 
+    The club serves players of all ages and offers recreational and competitive soccer programming,
+    with a strong focus on player development, community, and opportunities at regional and national levels.
+  </p>
+  <p>
+    The club’s mission is to elevate players and enrich families through excellence, unity,
+    and innovation in soccer. 
+    Richmond United competes across multiple divisions, including ECNL, Regional League (RL),
+    NPL, and local competitive leagues.
+  </p>
+
+  <h3>Programs & Schedules</h3>
+  <ul>
+    <li>Recreational soccer for U3–U19 players, focusing on fun and development.</li>
+    <li>Travel soccer programs — ECNL, Orange, Red, and Blue teams — competing regionally and nationally.</li>
+    <li>Tryouts for travel and ECNL programs during spring season.</li>
+  </ul>
+  <p>Richmond United hosts and participates in many events and leagues, including:</p>
+  <table>
+    <tr>
+      <th>Season / Event</th>
+      <th>Description</th>
+    </tr>
+    <tr>
+      <td>Spring 2026 Recreational Soccer</td>
+      <td>Season games and practices for Recreational teams.</td>
+    </tr>
+    <tr>
+      <td>2026 Jefferson Cup</td>
+      <td>The club participates in Jefferson Cup boys and girls weekends.</td>
+    </tr>
+    <tr>
+      <td>2026 Nike Spring Classic</td>
+      <td>Tournament hosted by Richmond United.</td>
+    </tr>
+  </table>
+
+  <h3>Coaching Staff — ECNL Teams</h3>
+  <table>
+    <tr>
+      <th>Team</th>
+      <th>Head Coach</th>
+    </tr>
+    <tr><td>RU ECNL B13 (U13 Boys)</td><td>Victor Olivares</td></tr>
+    <tr><td>RU ECNL B12 (U14 Boys)</td><td>Patrick Hughes</td></tr>
+    <tr><td>RU ECNL B11 (U15 Boys)</td><td>Victor Olivares</td></tr>
+    <tr><td>RU ECNL B10 (U16 Boys)</td><td>Patrick Hughes</td></tr>
+    <tr><td>RU ECNL B09 (U17 Boys)</td><td>Ivan Militar</td></tr>
+    <tr><td>RU ECNL G11 (U15 Girls)</td><td>Greg Boehme</td></tr>
+    <tr><td>RU ECNL G10 (U16 Girls)</td><td>Mike Burke</td></tr>
+    <tr><td>RU ECNL G08/07 (U18/U19 Girls)</td><td>Jay Howell</td></tr>
+  </table>
+
+  <h3>Contact & Social</h3>
+  <ul>
+    <li>Official social channels like Facebook and Instagram.</li>
+    <li>Club news, registration info, and player resources on their website.</li>
+  </ul>
+</div>
+
+<!-- STA 2010 ECNL -->
+<div id="sta" class="hidden">
+  <h2>STA 2010 ECNL</h2>
+  <img src="sta_2010_ecnl_logo.png" class="logo" alt="STA Logo">
+  <p>Participated in U15 Showcase Division at Jefferson Cup 2025.</p>
+</div>
+
+<!-- Arlington SA -->
+<div id="arlington" class="hidden">
+  <h2>Arlington SA</h2>
+  <img src="ArlingtonLogo.png" class="logo" alt="Arlington SA Logo">
+  <p>Participated in U15 and U17 divisions based on event recaps.</p>
+</div>
+
+</div>
+
+<script>
+// Team Data
+let results = [
+  { gender: "Boys", age: "U15", team: "STA 2010 ECNL", record: "3-0-0", section:"sta" },
+  { gender: "Boys", age: "U17", team: "Richmond United", record: "2-0-1", section:"richmond" },
+  { gender: "Girls", age: "U19", team: "Arlington SA", record: "2-0-1", section:"arlington" }
+];
+
+// Show results table
+function showResults() {
+  let gender = document.getElementById("genderFilter").value;
+  let age = document.getElementById("ageFilter").value;
+  let table = document.getElementById("resultsTable");
+  table.innerHTML = "";
+
+  results.forEach(r=>{
+    if((gender==="All"||r.gender===gender)&&(age==="All"||r.age===age)){
+      table.innerHTML += `<tr>
+        <td>${r.gender}</td>
+        <td>${r.age}</td>
+        <td><span class="team-link" onclick="showSection('${r.section}')">${r.team}</span></td>
+        <td>${r.record}</td>
+      </tr>`;
+    }
+  });
+}
+
+// Show/hide sections
+function showSection(sectionId){
+  const sections = ["home","schedule","richmond","sta","arlington"];
+  sections.forEach(s=>{
+    document.getElementById(s).classList.add("hidden");
+  });
+  document.getElementById(sectionId).classList.remove("hidden");
+}
+
+// Initial load
+showSection('home');
+showResults();
+</script>
+
+</body>
+</html>

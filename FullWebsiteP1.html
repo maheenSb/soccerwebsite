@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Virginia Soccer Website</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 0; background: #f4f6f8; }
+    header { background: #0b1c2d; color: white; padding: 20px; text-align: center; }
+    nav { background: #1a4fa3; padding: 10px; text-align: center; }
+    nav a { color: white; margin: 0 15px; font-weight: bold; text-decoration: none; cursor: pointer; }
+    nav a:hover { text-decoration: underline; }
+    .container { padding: 20px; max-width: 1000px; margin: auto; }
+    table { width: 100%; background: white; border-collapse: collapse; margin-top: 15px; }
+    th, td { border: 1px solid #ccc; padding: 10px; text-align: left; }
+    th { background: #1a4fa3; color: white; }
+    tr:nth-child(even) { background: #f2f2f2; }
+    .hidden { display: none; }
+    h2 { color: #1a4fa3; margin-top: 20px; }
+  </style>
+</head>
+
+<body>
+
+<header>
+  <h1>Virginia Soccer Website</h1>
+</header>
+
+<nav>
+  <a onclick="showSection('home')">Home</a>
+  <a onclick="showSection('richmond')">Richmond United</a>
+</nav>
+
+<div class="container">
+
+  <!-- HOME SECTION -->
+  <div id="home">
+    <h2>Jefferson Cup 2025 Results</h2>
+
+    <select id="genderFilter" onchange="showResults()">
+      <option value="All">All</option>
+      <option value="Boys">Boys</option>
+      <option value="Girls">Girls</option>
+    </select>
+
+    <select id="ageFilter" onchange="showResults()">
+      <option value="All">All Ages</option>
+      <option value="U15">U15</option>
+      <option value="U16">U16</option>
+      <option value="U17">U17</option>
+      <option value="U19">U19</option>
+    </select>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Gender</th>
+          <th>Age</th>
+          <th>Team</th>
+          <th>Record</th>
+        </tr>
+      </thead>
+      <tbody id="resultsTable"></tbody>
+    </table>
+  </div>
+
+  <!-- RICHMOND UNITED SECTION -->
+  <div id="richmond" class="hidden">
+    <h2>Richmond United</h2>
+    <p>Youth soccer club based in Richmond, Virginia.</p>
+
+    <h3>Programs</h3>
+    <ul>
+      <li>Recreational Soccer</li>
+      <li>Travel Soccer (ECNL, RL)</li>
+    </ul>
+
+    <h3>Coaches (ECNL)</h3>
+    <ul>
+      <li>Victor Olivares</li>
+      <li>Patrick Hughes</li>
+      <li>Jay Howell</li>
+    </ul>
+  </div>
+
+</div>
+
+<script>
+  // DATA
+  let results = [
+    { gender: "Boys", age: "U15", team: "STA 2010 ECNL", record: "3-0-0" },
+    { gender: "Boys", age: "U17", team: "Richmond United", record: "2-0-1" },
+    { gender: "Girls", age: "U19", team: "Arlington SA", record: "2-0-1" }
+  ];
+
+  // SHOW RESULTS IN TABLE
+  function showResults() {
+    let gender = document.getElementById("genderFilter").value;
+    let age = document.getElementById("ageFilter").value;
+    let table = document.getElementById("resultsTable");
+    table.innerHTML = "";
+
+    results.forEach(r => {
+      if ((gender === "All" || r.gender === gender) &&
+          (age === "All" || r.age === age)) {
+
+        let teamLink = r.team === "Richmond United"
+          ? "#"
+          : "#"; // All other teams could be linked to sections if added
+
+        table.innerHTML += `
+          <tr>
+            <td>${r.gender}</td>
+            <td>${r.age}</td>
+            <td>${r.team}</td>
+            <td>${r.record}</td>
+          </tr>
+        `;
+      }
+    });
+  }
+
+  // SWITCH SECTIONS
+  function showSection(sectionId) {
+    document.getElementById("home").classList.add("hidden");
+    document.getElementById("richmond").classList.add("hidden");
+
+    document.getElementById(sectionId).classList.remove("hidden");
+  }
+
+  // INITIAL TABLE
+  showResults();
+</script>
+
+</body>
+</html>

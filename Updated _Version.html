@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Virginia Soccer Website</title>
+<style>
+body { font-family: Arial, sans-serif; margin:0; background:#f4f6f8; }
+header { background:#0b1c2d; color:white; padding:20px; text-align:center; }
+nav { background:#1a4fa3; padding:10px; text-align:center; }
+nav a { color:white; margin:0 15px; font-weight:bold; text-decoration:none; cursor:pointer; }
+nav a:hover { text-decoration:underline; }
+.container { padding:20px; max-width:1000px; margin:auto; }
+table { width:100%; background:white; border-collapse:collapse; margin-top:15px; }
+th, td { border:1px solid #ccc; padding:10px; text-align:left; }
+th { background:#1a4fa3; color:white; }
+tr:nth-child(even) { background:#f2f2f2; }
+.hidden { display:none; }
+h2, h3 { color:#1a4fa3; margin-top:20px; }
+.logo { width:120px; height:auto; margin:10px 0; }
+a.team-link { color:#1a4fa3; font-weight:bold; cursor:pointer; text-decoration:underline; }
+</style>
+</head>
+
+<body>
+
+<header>
+  <h1>Virginia Soccer Website</h1>
+</header>
+
+<nav>
+  <a onclick="showSection('home')">Home</a>
+  <a onclick="showSection('schedule')">Tournament Schedule</a>
+  <a onclick="showSection('richmond')">Richmond United</a>
+  <a onclick="showSection('sta')">STA 2010 ECNL</a>
+  <a onclick="showSection('arlington')">Arlington SA</a>
+  <a onclick="showSection('jeffcup')">Jefferson Cup 2026</a>
+</nav>
+
+<div class="container">
+
+<!-- HOME SECTION -->
+<div id="home">
+  <h2>Jefferson Cup 2026 Results</h2>
+
+  <select id="genderFilter" onchange="showResults()">
+    <option value="All">All</option>
+    <option value="Boys">Boys</option>
+    <option value="Girls">Girls</option>
+  </select>
+
+  <select id="ageFilter" onchange="showResults()">
+    <option value="All">All Ages</option>
+    <option value="U15">U15</option>
+    <option value="U16">U16</option>
+    <option value="U17">U17</option>
+    <option value="U19">U19</option>
+  </select>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Gender</th>
+        <th>Age</th>
+        <th>Team</th>
+        <th>Record</th>
+      </tr>
+    </thead>
+    <tbody id="resultsTable"></tbody>
+  </table>
+</div>
+
+<!-- TOURNAMENT SCHEDULE SECTION -->
+<div id="schedule" class="hidden">
+  <h2>Jefferson Cup 2026 Tournament Schedule</h2>
+  <p>Below are the main weekends for the Jefferson Cup competition in Richmond, Virginia:</p>
+  <table>
+    <tr><th>Event</th><th>Dates</th></tr>
+    <tr><td>Boys Weekend (U9–U14)</td><td>March 6–7, 2026</td></tr>
+    <tr><td>Girls Weekend (U9–U14)</td><td>March 13–14, 2026</td></tr>
+    <tr><td>Girls Showcase (U15–U19)</td><td>March 20–22, 2026</td></tr>
+    <tr><td>Boys Showcase (U15–U19)</td><td>March 27–29, 2026</td></tr>
+  </table>
+</div>
+
+<!-- TEAM SECTIONS -->
+
+<!-- Richmond United -->
+<div id="richmond" class="hidden">
+  <h2>Richmond United</h2>
+  <img src="richmond_united_logo.png" class="logo" alt="Richmond United Logo">
+
+  <h3>Programs</h3>
+  <ul>
+    <li>Recreational Soccer (U3–U19)</li>
+    <li>Travel Soccer (ECNL, RL)</li>
+  </ul>
+
+  <h3>Coaches (ECNL)</h3>
+  <ul>
+    <li>Victor Olivares</li>
+    <li>Patrick Hughes</li>
+    <li>Jay Howell</li>
+  </ul>
+
+  <h3>Estimated 2026 Match Windows</h3>
+  <p>Richmond United likely plays across Jefferson Cup Showcase weekends (March 20–22 & March 27–29).</p>
+</div>
+
+<!-- STA 2010 ECNL -->
+<div id="sta" class="hidden">
+  <h2>STA 2010 ECNL</h2>
+  <img src="https://via.placeholder.com/120x120?text=STA+Logo" class="logo" alt="STA Logo">
+  <h3>Estimated Jefferson Cup 2026 Participation</h3>
+  <p>This team is expected to compete in the U15 Showcase Division at the Jefferson Cup.</p>
+</div>
+
+<!-- Arlington SA -->
+<div id="arlington" class="hidden">
+  <h2>Arlington SA</h2>
+  <img src="arlington_soccer_logo.png" class="logo" alt="Arlington SA Logo">
+  <h3>Estimated Jefferson Cup 2026 Participation</h3>
+  <p>This team is expected to participate in U15 and U17 divisions.</p>
+</div>
+
+<!-- JEFFERSON CUP 2026 -->
+<div id="jeffcup" class="hidden">
+  <h2>Jefferson Cup 2026</h2>
+  <img src="jeffcup.png" class="logo" alt="Jefferson Cup Logo">
+
+  <p>The <strong>Jefferson Cup</strong> is one of the largest and most prestigious youth soccer tournaments in the United States, held every March in Richmond, Virginia. It attracts teams from across the country in boys and girls divisions.</p>
+
+  <h3>Tournament Description</h3>
+  <p>
+    The tournament features hundreds to thousands of youth teams competing in different age groups and divisions each year. The event includes both Championship and Showcase formats, offering competitive match play and opportunities to be seen by college coaches and scouts.
+  </p>
+
+  <h3>2026 Jefferson Cup Schedule</h3>
+  <table>
+    <tr><th>Event</th><th>Dates</th></tr>
+    <tr><td>Boys Weekend (U9–U14)</td><td>March 6–7, 2026</td></tr>
+    <tr><td>Girls Weekend (U9–U14)</td><td>March 13–14, 2026</td></tr>
+    <tr><td>Girls Showcase (U15–U19)</td><td>March 20–22, 2026</td></tr>
+    <tr><td>Boys Showcase (U15–U19)</td><td>March 27–29, 2026</td></tr>
+  </table>
+
+  <h3>Format of Play</h3>
+  <p>
+    Younger teams (U9–U15) typically play a championship format, while older teams (U16–U19) play in showcase divisions to maximize exposure and player development.
+  </p>
+
+  <h3>Showcase & College Exposure</h3>
+  <p>
+    Showcase weekends provide opportunities for college scouts and coaches to evaluate top players, while also including high-level matches for spectators.
+  </p>
+
+  <h3>More Info</h3>
+  <p>
+    For full brackets, field assignments, rules, and registration, visit the official site: 
+    <br><a href="https://jeffersoncup.rutournaments.com/" target="_blank">Visit The Jefferson Cup Website</a>
+  </p>
+</div>
+
+</div>
+
+<script>
+// Team Data
+let results = [
+  { gender: "Boys", age: "U15", team: "STA 2010 ECNL", record: "3-0-0", section:"sta" },
+  { gender: "Boys", age: "U17", team: "Richmond United", record: "2-0-1", section:"richmond" },
+  { gender: "Girls", age: "U19", team: "Arlington SA", record: "2-0-1", section:"arlington" }
+];
+
+// Show results table
+function showResults() {
+  let gender = document.getElementById("genderFilter").value;
+  let age = document.getElementById("ageFilter").value;
+  let table = document.getElementById("resultsTable");
+  table.innerHTML = "";
+
+  results.forEach(r=>{
+    if((gender==="All"||r.gender===gender)&&(age==="All"||r.age===age)){
+      table.innerHTML += `<tr>
+        <td>${r.gender}</td>
+        <td>${r.age}</td>
+        <td><span class="team-link" onclick="showSection('${r.section}')">${r.team}</span></td>
+        <td>${r.record}</td>
+      </tr>`;
+    }
+  });
+}
+
+// Show/hide sections
+function showSection(sectionId){
+  const sections = ["home","schedule","richmond","sta","arlington","jeffcup"];
+  sections.forEach(s=>{
+    document.getElementById(s).classList.add("hidden");
+  });
+  document.getElementById(sectionId).classList.remove("hidden");
+}
+
+// Initial load
+showSection('home');
+showResults();
+</script>
+
+</body>
+</html>

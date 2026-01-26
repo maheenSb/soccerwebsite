@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Jefferson Cup 2025</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<header>
+  <h1>Jefferson Cup 2025</h1>
+  <p>Richmond, Virginia</p>
+</header>
+
+<div class="container">
+
+<h2>Filter Results</h2>
+
+<select id="genderFilter" onchange="showResults()">
+  <option value="All">All</option>
+  <option value="Boys">Boys</option>
+  <option value="Girls">Girls</option>
+</select>
+
+<select id="ageFilter" onchange="showResults()">
+  <option value="All">All Ages</option>
+  <option value="U15">U15</option>
+  <option value="U16">U16</option>
+  <option value="U17">U17</option>
+  <option value="U19">U19</option>
+</select>
+
+<table>
+  <thead>
+    <tr>
+      <th>Gender</th>
+      <th>Age</th>
+      <th>Champion</th>
+      <th>Record</th>
+    </tr>
+  </thead>
+  <tbody id="resultsTable"></tbody>
+</table>
+
+<!-- SCORE INPUT FORM -->
+<div class="form-box">
+  <h2>Add New Result</h2>
+  <input id="gender" placeholder="Boys or Girls">
+  <input id="age" placeholder="U15">
+  <input id="team" placeholder="Team Name">
+  <input id="record" placeholder="3-0-0">
+  <button onclick="addResult()">Add</button>
+</div>
+
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>

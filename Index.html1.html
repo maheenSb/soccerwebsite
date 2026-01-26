@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Jefferson Cup 2025</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<header>
+  <h1>Jefferson Cup 2025</h1>
+</header>
+
+<div class="container">
+
+<select id="genderFilter" onchange="showResults()">
+  <option value="All">All</option>
+  <option value="Boys">Boys</option>
+  <option value="Girls">Girls</option>
+</select>
+
+<select id="ageFilter" onchange="showResults()">
+  <option value="All">All Ages</option>
+  <option value="U15">U15</option>
+  <option value="U16">U16</option>
+  <option value="U17">U17</option>
+  <option value="U19">U19</option>
+</select>
+
+<table>
+  <thead>
+    <tr>
+      <th>Gender</th>
+      <th>Age</th>
+      <th>Team</th>
+      <th>Record</th>
+    </tr>
+  </thead>
+  <tbody id="resultsTable"></tbody>
+</table>
+
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
