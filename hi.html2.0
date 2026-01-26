@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>TurfVision</title>
+
+<style>
+body {
+  margin:0;
+  padding:0;
+  font-family:Arial, sans-serif;
+  background:url('penalty-bg.png');
+  background-size:cover;
+  background-position:center;
+  background-attachment:fixed;
+  color:white;
+}
+
+/* Navigation bar */
+nav {
+  background:rgba(0,0,0,0.75);
+  padding:15px 20px;
+  display:flex;
+  justify-content:center;
+  gap:40px;
+  position:sticky;
+  top:0;
+  backdrop-filter:blur(4px);
+  z-index:10;
+}
+
+nav a {
+  color:white;
+  text-decoration:none;
+  font-size:18px;
+  font-weight:bold;
+  cursor:pointer;
+  transition:0.2s;
+}
+
+nav a:hover {
+  color:#39ff14;
+  text-shadow:0 0 10px #39ff14;
+}
+
+/* HOME PAGE */
+#home-page {
+  display:block;
+}
+
+.hero {
+  backdrop-filter: blur(6px);
+  background: rgba(0, 0, 0, 0.55);
+  padding: 80px 20px;
+  text-align: center;
+}
+
+.logo {
+  width: 180px;
+  filter: drop-shadow(0 0 12px #39ff14);
+}
+
+.card {
+  max-width: 900px;
+  margin: 40px auto;
+  background: white;
+  padding: 30px;
+  border-radius: 15px;
+  color: black;
+  box-shadow: 0 0 25px rgba(0,0,0,0.35);
+}
+
+.card h2 {
+  color:#0a4d1a;
+}
+
+.search-box input {
+  width:100%;
+  padding:15px;
+  font-size:18px;
+  border:2px solid #39ff14;
+  border-radius:10px;
+  outline:none;
+}
+
+.search-box input:focus {
+  box-shadow:0 0 10px #39ff14;
+}
+
+/* TEAMS PAGE */
+#teams-page {
+  display:none;
+  padding:20px;
+}
+
+#teams-page h1 {
+  font-size:48px;
+  text-align:center;
+  color:#39ff14;
+  text-shadow:0 0 15px #39ff14;
+}
+
+/* Neon buttons */
+.team-buttons {
+  margin-top:30px;
+  display:flex;
+  flex-wrap:wrap;
+  gap:20px;
+  justify-content:center;
+}
+
+.team-buttons button {
+  padding:15px 20px;
+  background:#111;
+  border:2px solid #00eaff;
+  color:#00eaff;
+  font-size:16px;
+  font-weight:bold;
+  border-radius:10px;
+  box-shadow:0 0 10px #00eaff;
+  cursor:pointer;
+  min-width:220px;
+  transition:0.2s;
+}
+
+.team-buttons button:hover {
+  background:#00eaff;
+  color:#000;
+  box-shadow:0 0 18px #00eaff;
+}
+
+/* Dynamic content box */
+#content-box {
+  margin-top:40px;
+  background:#111;
+  padding:20px;
+  border-radius:10px;
+  border-left:5px solid #39ff14;
+  display:none;
+}
+
+.section {
+  margin-top:15px;
+  padding:10px;
+  background:#0d0d0d;
+  border-left:4px solid #00eaff;
+  border-radius:8px;
+}
+
+.section h3 {
+  margin:0;
+  color:#00eaff;
+}
+</style>
+</head>
+
+<body>
+
+<nav>
+  <a onclick="showPage('home')">Home</a>
+  <a onclick="showPage('teams')">Teams</a>
+</nav>
+
+<!-- HOME PAGE -->
+<div id="home-page">
+  <div class="hero">
+    <img src="turfvision-logo.png" alt="TurfVision Logo" class="logo">
+  </div>
+
+  <div class="card">
+    <h2>Search the Database</h2>
+    <div class="search-box">
+      <input type="text" placeholder="Search teams, tournaments, brackets...">
+    </div>
+
+    <h2 style="margin-top:40px;">Quick Links</h2>
+    <ul>
+      <li>Jefferson Cup (coming soon)</li>
+      <li>ASIST Tournament (coming soon)</li>
+      <li>Match History</li>
+      <li>Scouting Notes</li>
+    </ul>
+  </div>
+</div>
+
+<!-- TEAMS PAGE -->
+<div id="teams-page">
+  <h1>Teams</h1>
+
+  <div class="team-buttons">
+    <button onclick="loadTeam('vys')">VYS Phoenix Pre ECNL 15G</button>
+    <button onclick="loadTeam('reign')">2015 VA Reign Elite Pre ECNL</button>
+    <button onclick="loadTeam('rured')">RU Red Pre ECNL 2</button>
+    <button onclick="loadTeam('gfr')">Great Falls Reston Pre ECNL</button>
+    <button onclick="loadTeam('bryc')">BRYC Elite Academy G15 Pre ECNL</button>
+  </div>
+
+  <div id="content-box"></div>
+</div>
+
+<script>
+function showPage(page) {
+  document.getElementById("home-page").style.display = page === "home" ? "block" : "none";
+  document.getElementById("teams-page").style.display = page === "teams" ? "block" : "none";
+}
+
+function loadTeam(team) {
+  const box = document.getElementById("content-box");
+  box.style.display = "block";
+
+  const teams = {
+    vys: `
+      <h2>VYS Phoenix Pre ECNL 15G</h2>
+      <div class="section"><h3>Club</h3><p>Vienna Youth Soccer (VYS)</p></div>
+      <div class="section"><h3>League</h3><p>Pre-ECNL Girls (2015)</p></div>
+      <div class="section"><h3>Location</h3><p>Vienna, Virginia</p></div>
+      <div class="section"><h3>Games vs RU</h3><ul><li>Add scores here</li></ul></div>
+      <div class="section"><h3>Notes</h3><p>Strong midfield, fast wingers.</p></div>
+    `,
+    reign: `
+      <h2>2015 VA Reign Elite Pre ECNL</h2>
+      <div class="section"><h3>Club</h3><p>VA Reign</p></div>
+      <div class="section"><h3>League</h3><p>Pre-ECNL Girls</p></div>
+      <div class="section"><h3>Location</h3><p>Northern Virginia</p></div>
+      <div class="section"><h3>Games vs RU</h3><ul><li>Add scores here</li></ul></div>
+      <div class="section"><h3>Notes</h3><p>Very aggressive press.</p></div>
+    `,
+    rured: `
+      <h2>RU Red Pre ECNL 2</h2>
+      <div class="section"><h3>Club</h3><p>Richmond United</p></div>
+      <div class="section"><h3>League</h3><p>Pre-ECNL Girls</p></div>
+      <div class="section"><h3>Location</h3><p>Richmond, VA</p></div>
+      <div class="section"><h3>Games vs RU Orange</h3><ul><li>Same club matchup</li></ul></div>
+      <div class="section"><h3>Notes</h3><p>Strong defenders.</p></div>
+    `,
+    gfr: `
+      <h2>Great Falls Reston Pre ECNL</h2>
+      <div class="section"><h3>Club</h3><p>Great Falls Reston Soccer</p></div>
+      <div class="section"><h3>League</h3><p>Pre-ECNL Girls</p></div>
+      <div class="section"><h3>Location</h3><p>Reston, VA</p></div>
+      <div class="section"><h3>Games vs RU</h3><ul><li>Add scores here</li></ul></div>
+      <div class="section"><h3>Notes</h3><p>Strong passing team.</p></div>
+    `,
+    bryc: `
+      <h2>BRYC Elite Academy G15 Pre ECNL</h2>
+      <div class="section"><h3>Club</h3><p>Braddock Road Youth Club</p></div>
+      <div class="section"><h3>League</h3><p>Pre-ECNL Girls</p></div>
+      <div class="section"><h3>Location</h3><p>Fairfax, VA</p></div>
+      <div class="section"><h3>Games vs RU</h3><ul><li>Add scores here</li></ul></div>
+      <div class="section"><h3>Notes</h3><p>Very technical players.</p></div>
+    `
+  };
+
+  box.innerHTML = teams[team];
+}
+</script>
+
+</body>
+</html>
