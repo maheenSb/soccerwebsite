@@ -1,0 +1,777 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>TurfVision</title>
+
+<style>
+body {
+  margin:0;
+  padding:0;
+  font-family:Arial, sans-serif;
+  background:url('penalty-bg.png');
+  background-size:cover;
+  background-position:center;
+  background-attachment:fixed;
+  color:white;
+}
+
+/* Navigation bar */
+nav {
+  background:rgba(0,0,0,0.75);
+  padding:15px 20px;
+  display:flex;
+  justify-content:center;
+  gap:40px;
+  position:sticky;
+  top:0;
+  backdrop-filter:blur(4px);
+  z-index:10;
+}
+
+nav a {
+  color:white;
+  text-decoration:none;
+  font-size:18px;
+  font-weight:bold;
+  cursor:pointer;
+  transition:0.2s;
+}
+
+nav a:hover {
+  color:#39ff14;
+  text-shadow:0 0 10px #39ff14;
+}
+
+/* PAGE CONTAINERS */
+.page {
+  display:none;
+}
+
+#home-page {
+  display:block;
+}
+
+/* HOME PAGE */
+.hero {
+  backdrop-filter: blur(6px);
+  background: rgba(0, 0, 0, 0.55);
+  padding: 80px 20px;
+  text-align: center;
+}
+
+/* BIG TEXT LOGO */
+.text-logo {
+  font-size: 80px;
+  font-weight: 900;
+  letter-spacing: 4px;
+  color: #39ff14;
+  text-shadow: 0 0 25px #39ff14;
+  margin: 0;
+}
+
+.card {
+  max-width: 900px;
+  margin: 40px auto;
+  background: white;
+  padding: 30px;
+  border-radius: 15px;
+  color: black;
+  box-shadow: 0 0 25px rgba(0,0,0,0.35);
+}
+
+.card h2 {
+  color:#0a4d1a;
+}
+
+.search-box input {
+  width:100%;
+  padding:15px;
+  font-size:18px;
+  border:2px solid #39ff14;
+  border-radius:10px;
+  outline:none;
+}
+
+.search-box input:focus {
+  box-shadow:0 0 10px #39ff14;
+}
+
+/* TEAMS PAGE */
+#teams-page {
+  padding:20px;
+}
+
+#teams-page h1 {
+  font-size:48px;
+  text-align:center;
+  color:#39ff14;
+  text-shadow:0 0 15px #39ff14;
+}
+
+/* Neon buttons */
+.team-buttons {
+  margin-top:30px;
+  display:flex;
+  flex-wrap:wrap;
+  gap:20px;
+  justify-content:center;
+}
+
+.team-buttons button {
+  padding:15px 20px;
+  background:#111;
+  border:2px solid #00eaff;
+  color:#00eaff;
+  font-size:16px;
+  font-weight:bold;
+  border-radius:10px;
+  box-shadow:0 0 10px #00eaff;
+  cursor:pointer;
+  min-width:220px;
+  transition:0.2s;
+}
+
+.team-buttons button:hover {
+  background:#00eaff;
+  color:#000;
+  box-shadow:0 0 18px #00eaff;
+}
+
+/* Dynamic content box */
+#content-box {
+  margin-top:40px;
+  background:#111;
+  padding:20px;
+  border-radius:10px;
+  border-left:5px solid #39ff14;
+  display:none;
+}
+
+.section {
+  margin-top:15px;
+  padding:10px;
+  background:#0d0d0d;
+  border-left:4px solid #00eaff;
+  border-radius:8px;
+}
+
+.section h3 {
+  margin:0;
+  color:#00eaff;
+}
+
+/* TOURNAMENT PAGES (Jeff + ASIST) */
+.tournament-page {
+  padding:20px;
+}
+
+.tournament-page h1 {
+  font-size:42px;
+  text-align:center;
+  color:#39ff14;
+  text-shadow:0 0 15px #39ff14;
+  margin-bottom:10px;
+}
+
+.t-subtitle {
+  text-align:center;
+  font-size:18px;
+  color:#e0e0e0;
+  margin-bottom:25px;
+}
+
+.t-grid {
+  max-width:1100px;
+  margin:0 auto;
+  display:grid;
+  grid-template-columns:2fr 1.5fr;
+  gap:20px;
+}
+
+.t-card {
+  background:#111;
+  border-radius:12px;
+  padding:18px 20px;
+  box-shadow:0 0 18px rgba(0,0,0,0.5);
+  border-left:4px solid #39ff14;
+}
+
+.t-card h2 {
+  margin-top:0;
+  color:#39ff14;
+}
+
+.t-card table {
+  width:100%;
+  border-collapse:collapse;
+  font-size:14px;
+}
+
+.t-card th,
+.t-card td {
+  padding:6px 4px;
+  border-bottom:1px solid #333;
+}
+
+.t-card th {
+  text-align:left;
+  color:#00eaff;
+}
+
+/* Opponent buttons */
+.t-opponents {
+  margin-top:15px;
+  display:flex;
+  flex-wrap:wrap;
+  gap:10px;
+}
+
+.t-opponents button {
+  padding:8px 12px;
+  background:#111;
+  border:1px solid #00eaff;
+  color:#00eaff;
+  font-size:13px;
+  border-radius:8px;
+  cursor:pointer;
+  transition:0.2s;
+}
+
+.t-opponents button:hover {
+  background:#00eaff;
+  color:#000;
+  box-shadow:0 0 12px #00eaff;
+}
+
+/* Opponent detail box */
+.t-opponent-detail {
+  margin-top:12px;
+  background:#0d0d0d;
+  border-radius:10px;
+  padding:12px;
+  border-left:4px solid #00eaff;
+  display:none;
+}
+
+.t-opponent-detail h3 {
+  margin-top:0;
+  color:#00eaff;
+}
+
+/* Notes textarea */
+.t-notes textarea {
+  width:100%;
+  min-height:120px;
+  border-radius:8px;
+  border:1px solid #39ff14;
+  background:#050505;
+  color:white;
+  padding:8px;
+  font-family:inherit;
+  font-size:14px;
+  resize:vertical;
+}
+
+/* Neon Soccer Ball Cursor */
+body {
+  cursor: url('soccer-ball.png') 16 16, auto;
+}
+
+/* Neon glow soccer ball follower */
+.neon-cursor {
+  position: fixed;
+  width: 40px;
+  height: 40px;
+  pointer-events: none;
+  background: url('soccer-ball.png') center/contain no-repeat;
+  filter: drop-shadow(0 0 8px #39ff14) drop-shadow(0 0 14px #39ff14);
+  transform: translate(-50%, -50%);
+  z-index: 9999;
+  transition: transform 0.05s linear;
+}
+</style>
+</head>
+
+<body>
+
+<nav>
+  <a onclick="showPage('home')">Home</a>
+  <a onclick="showPage('teams')">Teams</a>
+  <a onclick="showPage('jeff')">Jeff Cup</a>
+  <a onclick="showPage('asist')">ASIST</a>
+</nav>
+
+<!-- HOME PAGE -->
+<div id="home-page" class="page">
+  <div class="hero">
+    <h1 class="text-logo">TURFVISION</h1>
+  </div>
+
+  <div class="card">
+    <h2>Search the Database</h2>
+    <div class="search-box">
+      <input type="text" placeholder="Search teams, tournaments, brackets...">
+    </div>
+
+    <h2 style="margin-top:40px;">Quick Links</h2>
+    <ul>
+      <li>Jefferson Cup (Jeff Cup tab)</li>
+      <li>ASIST Tournament (ASIST tab)</li>
+      <li>Match History</li>
+      <li>Scouting Notes</li>
+    </ul>
+  </div>
+</div>
+
+<!-- TEAMS PAGE -->
+<div id="teams-page" class="page">
+  <h1>Teams</h1>
+
+  <div class="team-buttons">
+    <button onclick="loadTeam('ru_orange')">Richmond United 2015 Girls (RU)</button>
+    <button onclick="loadTeam('vys')">VYS Phoenix Pre ECNL 15G</button>
+    <button onclick="loadTeam('reign')">2015 VA Reign Elite Pre ECNL</button>
+    <button onclick="loadTeam('rured')">RU Red Pre ECNL 2</button>
+    <button onclick="loadTeam('gfr')">Great Falls Reston Pre ECNL</button>
+    <button onclick="loadTeam('bryc')">BRYC Elite Academy G15 Pre ECNL</button>
+  </div>
+
+  <div id="content-box"></div>
+</div>
+
+<!-- JEFFERSON CUP PAGE -->
+<div id="jeff-page" class="page tournament-page">
+  <h1>Jefferson Cup</h1>
+  <div class="t-subtitle" id="jeff-subtitle">
+    Richmond United 2015 Girls • Tournament Tracker
+  </div>
+
+  <!-- 2025 JEFF CUP SECTION -->
+  <div class="t-grid">
+    <!-- LEFT: Overview + Opponents -->
+    <div class="t-card">
+      <h2>Jeff Cup 2025 Overview</h2>
+      <div style="display:flex; align-items:center; gap:15px; margin-bottom:10px;">
+        <img id="jeff-badge" src="ru-badge.png" alt="Team Badge" style="width:60px; height:60px; border-radius:50%; border:2px solid #39ff14; object-fit:cover;">
+        <div id="jeff-overview"></div>
+      </div>
+
+      <div id="jeff-rankings"></div>
+
+      <h2 style="margin-top:18px;">Opponents</h2>
+      <div class="t-opponents" id="jeff-opponents"></div>
+      <div id="jeff-opponent-detail" class="t-opponent-detail"></div>
+    </div>
+
+    <!-- RIGHT: Schedule + Standings + Player Stats -->
+    <div class="t-card">
+      <h2>Match Schedule</h2>
+      <div id="jeff-schedule">
+        <p>Loading schedule...</p>
+      </div>
+
+      <h2 style="margin-top:18px;">Standings</h2>
+      <div id="jeff-standings"></div>
+
+      <h2 style="margin-top:18px;">Player Stats</h2>
+      <div id="jeff-player-stats"></div>
+    </div>
+  </div>
+
+  <!-- 2026 PREMIER DIVISION INSIDE JEFF CUP -->
+  <div style="max-width:1100px; margin:40px auto 0;">
+    <div class="t-card">
+      <h2>2026 Premier Division • RU ORANGE PRE ECNL 2</h2>
+      <p><strong>State Ranking:</strong> #38</p>
+      <p><strong>National Ranking:</strong> #694</p>
+      <p style="margin-top:10px;">
+        Group stage and playoff bracket are set up below. All results are blank and ready to auto‑update once posted online.
+      </p>
+    </div>
+
+    <!-- GROUPS A–D -->
+    <div class="t-grid" style="margin-top:20px;">
+      <div class="t-card">
+        <h2>Bracket A</h2>
+        <table>
+          <tr><th>Team</th><th>P</th><th>W</th><th>D</th><th>L</th><th>Pts</th></tr>
+          <tr><td>Delaware FC 15G Pre ECNL Black (DE)</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td></tr>
+          <tr><td>Harrison Wolfpack 2015 (NJ)</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td></tr>
+          <tr><td>SEVERNA PARK 15G - GREEN (MD)</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td></tr>
+        </table>
+      </div>
+
+      <div class="t-card">
+        <h2>Bracket B</h2>
+        <table>
+          <tr><th>Team</th><th>P</th><th>W</th><th>D</th><th>L</th><th>Pts</th></tr>
+          <tr><td>Charlotte SA 15G Charlotte Elite 3 (NC)</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td></tr>
+          <tr><td>Lehigh Valley United 2015 Girls Black (PAE)</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td></tr>
+          <tr><td>Scorpions SC 2015 State Select Girls (MA)</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td></tr>
+        </table>
+      </div>
+    </div>
+
+    <div class="t-grid" style="margin-top:20px;">
+      <div class="t-card">
+        <h2>Bracket C</h2>
+        <table>
+          <tr><th>Team</th><th>P</th><th>W</th><th>D</th><th>L</th><th>Pts</th></tr>
+          <tr><td>Bethesda E 2 2015 (MD)</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td></tr>
+          <tr><td>BRYC Academy G15 Pre-ECNL (VA)</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td></tr>
+          <tr><td>NCFC Youth 15G Gold North (NC)</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td></tr>
+        </table>
+      </div>
+
+      <div class="t-card">
+        <h2>Bracket D</h2>
+        <table>
+          <tr><th>Team</th><th>P</th><th>W</th><th>D</th><th>L</th><th>Pts</th></tr>
+          <tr><td>Match Fit Surf Pre-ECNL II G15 (NJ)</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td></tr>
+          <tr><td>Old Line FC Girls 15 Black (MD)</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td></tr>
+          <tr><td><strong>RU ORANGE PRE ECNL 2 G15 (VA)</strong></td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td></tr>
+        </table>
+      </div>
+    </div>
+
+    <!-- PLAYOFF BRACKET SKELETON -->
+    <div class="t-card" style="margin-top:20px;">
+      <h2>2026 Premier Playoff Bracket</h2>
+      <p>Top 2 teams from each bracket (A–D) advance to the Quarterfinals.</p>
+      <table>
+        <tr><th>Round</th><th>Matchup</th><th>Result</th></tr>
+        <tr><td>Quarterfinal 1</td><td>Winner A vs Runner‑up D</td><td>-</td></tr>
+        <tr><td>Quarterfinal 2</td><td>Winner B vs Runner‑up C</td><td>-</td></tr>
+        <tr><td>Quarterfinal 3</td><td>Winner C vs Runner‑up B</td><td>-</td></tr>
+        <tr><td>Quarterfinal 4</td><td>Winner D vs Runner‑up A</td><td>-</td></tr>
+        <tr><td>Semifinal 1</td><td>Winner QF1 vs Winner QF2</td><td>-</td></tr>
+        <tr><td>Semifinal 2</td><td>Winner QF3 vs Winner QF4</td><td>-</td></tr>
+        <tr><td>Final</td><td>Winner SF1 vs Winner SF2</td><td>-</td></tr>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- ASIST PAGE (TBF TEMPLATE) -->
+<div id="asist-page" class="page tournament-page">
+  <h1>ASIST Tournament 2025</h1>
+  <div class="t-subtitle" id="asist-subtitle">
+    To be filled once schedule and brackets are released.
+  </div>
+
+  <div class="t-grid">
+    <!-- LEFT: Overview placeholder -->
+    <div class="t-card">
+      <h2>Tournament Overview</h2>
+      <div style="display:flex; align-items:center; gap:15px; margin-bottom:10px;">
+        <img id="asist-badge" src="ru-badge.png" alt="Team Badge" style="width:60px; height:60px; border-radius:50%; border:2px solid #39ff14; object-fit:cover;">
+        <div id="asist-overview">
+          <p><strong>Location:</strong> TBF</p>
+          <p><strong>Team:</strong> Richmond United 2015 Girls (RU)</p>
+          <p><strong>Bracket:</strong> TBF</p>
+        </div>
+      </div>
+
+      <div id="asist-rankings">
+        <p><strong>State Ranking:</strong> TBF</p>
+        <p><strong>National Ranking:</strong> TBF</p>
+      </div>
+
+      <h2 style="margin-top:18px;">Opponents</h2>
+      <div class="t-opponents" id="asist-opponents">
+        <p>Opponents will appear here once the schedule is posted.</p>
+      </div>
+      <div id="asist-opponent-detail" class="t-opponent-detail"></div>
+    </div>
+
+    <!-- RIGHT: Schedule + Standings + Player Stats placeholders -->
+    <div class="t-card">
+      <h2>Match Schedule</h2>
+      <div id="asist-schedule">
+        <p>Schedule will auto-fill from the tournament site.</p>
+      </div>
+
+      <h2 style="margin-top:18px;">Standings</h2>
+      <div id="asist-standings">
+        <p>Standings will update automatically once results are posted.</p>
+      </div>
+
+      <h2 style="margin-top:18px;">Player Stats</h2>
+      <div id="asist-player-stats">
+        <p>Player stats will be tracked here during the tournament.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="neon-cursor" id="neonCursor"></div>
+
+<script>
+let currentPage = 'home';
+
+function showPage(page) {
+  document.getElementById("home-page").style.display = "none";
+  document.getElementById("teams-page").style.display = "none";
+  document.getElementById("jeff-page").style.display = "none";
+  document.getElementById("asist-page").style.display = "none";
+
+  if (page === "home") {
+    document.getElementById("home-page").style.display = "block";
+  } else if (page === "teams") {
+    document.getElementById("teams-page").style.display = "block";
+  } else if (page === "jeff") {
+    document.getElementById("jeff-page").style.display = "block";
+    if (currentPage !== 'jeff') loadJeffCupData();
+  } else if (page === "asist") {
+    document.getElementById("asist-page").style.display = "block";
+    // ASIST is TBF, so no data load yet
+  }
+  currentPage = page;
+}
+
+/* TEAMS PAGE DATA */
+function loadTeam(team) {
+  const box = document.getElementById("content-box");
+  box.style.display = "block";
+
+  const teams = {
+    ru_orange: `
+      <h2>Richmond United 2015 Girls (RU)</h2>
+      <div class="section"><h3>Club</h3><p>Richmond United</p></div>
+      <div class="section"><h3>League</h3><p>Pre-ECNL Girls</p></div>
+      <div class="section"><h3>Location</h3><p>Richmond, Virginia</p></div>
+      <div class="section"><h3>Style</h3><p>High work rate, strong pressing, quick counters.</p></div>
+      <div class="section"><h3>Notes</h3><p>Use this space to track your own team’s development.</p></div>
+    `,
+    vys: `
+      <h2>VYS Phoenix Pre ECNL 15G</h2>
+      <div class="section"><h3>Club</h3><p>Vienna Youth Soccer (VYS)</p></div>
+      <div class="section"><h3>League</h3><p>Pre-ECNL Girls (2015)</p></div>
+      <div class="section"><h3>Location</h3><p>Vienna, Virginia</p></div>
+      <div class="section"><h3>Games vs RU</h3><ul><li>Add scores here</li></ul></div>
+      <div class="section"><h3>Notes</h3><p>Strong midfield, fast wingers.</p></div>
+    `,
+    reign: `
+      <h2>2015 VA Reign Elite Pre ECNL</h2>
+      <div class="section"><h3>Club</h3><p>VA Reign</p></div>
+      <div class="section"><h3>League</h3><p>Pre-ECNL Girls</p></div>
+      <div class="section"><h3>Location</h3><p>Northern Virginia</p></div>
+      <div class="section"><h3>Games vs RU</h3><ul><li>Add scores here</li></ul></div>
+      <div class="section"><h3>Notes</h3><p>Very aggressive press.</p></div>
+    `,
+    rured: `
+      <h2>RU Red Pre ECNL 2</h2>
+      <div class="section"><h3>Club</h3><p>Richmond United</p></div>
+      <div class="section"><h3>League</h3><p>Pre-ECNL Girls</p></div>
+      <div class="section"><h3>Location</h3><p>Richmond, VA</p></div>
+      <div class="section"><h3>Games vs RU Orange</h3><ul><li>Same club matchup</li></ul></div>
+      <div class="section"><h3>Notes</h3><p>Strong defenders.</p></div>
+    `,
+    gfr: `
+      <h2>Great Falls Reston Pre ECNL</h2>
+      <div class="section"><h3>Club</h3><p>Great Falls Reston Soccer</p></div>
+      <div class="section"><h3>League</h3><p>Pre-ECNL Girls</p></div>
+      <div class="section"><h3>Location</h3><p>Reston, VA</p></div>
+      <div class="section"><h3>Games vs RU</h3><ul><li>Add scores here</li></ul></div>
+      <div class="section"><h3>Notes</h3><p>Strong passing team.</p></div>
+    `,
+    bryc: `
+      <h2>BRYC Elite Academy G15 Pre ECNL</h2>
+      <div class="section"><h3>Club</h3><p>Braddock Road Youth Club</p></div>
+      <div class="section"><h3>League</h3><p>Pre-ECNL Girls</p></div>
+      <div class="section"><h3>Location</h3><p>Fairfax, VA</p></div>
+      <div class="section"><h3>Games vs RU</h3><ul><li>Add scores here</li></ul></div>
+      <div class="section"><h3>Notes</h3><p>Very technical players.</p></div>
+    `
+  };
+
+  box.innerHTML = teams[team];
+}
+
+/* ---------------------------
+   JEFFERSON CUP — STATIC DATA
+---------------------------- */
+const jeffCupData = {
+  lastUpdated: "Static Preview",
+  overview: {
+    location: "Richmond, VA",
+    teamName: "Richmond United 2015 Girls (RU)",
+    bracket: "U11 Girls Pre-ECNL Championship",
+    stateRank: "#38 in Virginia",
+    nationalRank: "#694 Nationally",
+    badge: "ru-badge.png"
+  },
+  standings: [
+    { team: "Richmond United 2015 Girls (RU)", played: 3, wins: 2, draws: 1, losses: 0, points: 7 },
+    { team: "VYS Phoenix Pre ECNL 15G",       played: 3, wins: 2, draws: 0, losses: 1, points: 6 },
+    { team: "2015 VA Reign Elite Pre ECNL",   played: 3, wins: 1, draws: 1, losses: 1, points: 4 },
+    { team: "Great Falls Reston Pre ECNL",    played: 3, wins: 0, draws: 1, losses: 2, points: 1 }
+  ],
+  playerStats: [
+    { name: "Player 1", position: "ST", goals: 3, assists: 1 },
+    { name: "Player 2", position: "CM", goals: 1, assists: 2 },
+    { name: "Player 3", position: "GK", goals: 0, assists: 0 }
+  ],
+  opponents: [
+    {
+      name: "VYS Phoenix Pre ECNL 15G",
+      club: "Vienna Youth Soccer",
+      style: "Fast wide play, strong wingers, aggressive counterattacks",
+      focus: "Force them inside, deny switches, track weak-side winger"
+    },
+    {
+      name: "2015 VA Reign Elite Pre ECNL",
+      club: "VA Reign",
+      style: "High press, physical, wins second balls",
+      focus: "Play quickly out of pressure, use width to escape"
+    },
+    {
+      name: "RU Red Pre ECNL 2",
+      club: "Richmond United",
+      style: "Compact defensively, disciplined shape",
+      focus: "Move the ball fast, avoid 1v1s in tight spaces"
+    },
+    {
+      name: "Great Falls Reston Pre ECNL",
+      club: "GFR Soccer",
+      style: "Possession-based, patient buildup",
+      focus: "Jump passing lanes, press as a unit"
+    },
+    {
+      name: "BRYC Elite Academy G15",
+      club: "Braddock Road Youth Club",
+      style: "Technical midfield, strong combination play",
+      focus: "Stay compact centrally, force play wide"
+    }
+  ],
+  schedule: [
+    {
+      date: "Friday 5:00 PM",
+      opponent: "VYS Phoenix Pre ECNL 15G",
+      field: "Striker Park #12",
+      result: "-"
+    },
+    {
+      date: "Saturday 10:30 AM",
+      opponent: "2015 VA Reign Elite Pre ECNL",
+      field: "River City #4",
+      result: "-"
+    },
+    {
+      date: "Saturday 4:00 PM",
+      opponent: "RU Red Pre ECNL 2",
+      field: "Striker Park #7",
+      result: "-"
+    },
+    {
+      date: "Sunday 9:00 AM",
+      opponent: "Great Falls Reston Pre ECNL",
+      field: "River City #2",
+      result: "-"
+    }
+  ]
+};
+
+/* ---------------------------
+   RENDER JEFF CUP
+---------------------------- */
+function loadJeffCupData() {
+  const o = jeffCupData.overview;
+
+  document.getElementById("jeff-overview").innerHTML = `
+    <p><strong>Location:</strong> ${o.location}</p>
+    <p><strong>Team:</strong> ${o.teamName}</p>
+    <p><strong>Bracket:</strong> ${o.bracket}</p>
+  `;
+
+  document.getElementById("jeff-rankings").innerHTML = `
+    <p><strong>State Ranking:</strong> ${o.stateRank}</p>
+    <p><strong>National Ranking:</strong> ${o.nationalRank}</p>
+  `;
+
+  const oppBox = document.getElementById("jeff-opponents");
+  oppBox.innerHTML = "";
+  jeffCupData.opponents.forEach((opp, i) => {
+    const btn = document.createElement("button");
+    btn.textContent = opp.name;
+    btn.onclick = () => showJeffOpponent(i);
+    oppBox.appendChild(btn);
+  });
+
+  let schedHTML = `
+    <table>
+      <tr><th>Date</th><th>Opponent</th><th>Field</th><th>Result</th></tr>
+  `;
+  jeffCupData.schedule.forEach(m => {
+    schedHTML += `
+      <tr>
+        <td>${m.date}</td>
+        <td>${m.opponent}</td>
+        <td>${m.field}</td>
+        <td>${m.result}</td>
+      </tr>
+    `;
+  });
+  schedHTML += "</table>";
+  document.getElementById("jeff-schedule").innerHTML = schedHTML;
+
+  let standingsHTML = `
+    <table>
+      <tr><th>Team</th><th>P</th><th>W</th><th>D</th><th>L</th><th>Pts</th></tr>
+  `;
+  jeffCupData.standings.forEach(row => {
+    standingsHTML += `
+      <tr>
+        <td>${row.team}</td>
+        <td>${row.played}</td>
+        <td>${row.wins}</td>
+        <td>${row.draws}</td>
+        <td>${row.losses}</td>
+        <td>${row.points}</td>
+      </tr>
+    `;
+  });
+  standingsHTML += "</table>";
+  document.getElementById("jeff-standings").innerHTML = standingsHTML;
+
+  let statsHTML = `
+    <table>
+      <tr><th>Player</th><th>Pos</th><th>Goals</th><th>Assists</th></tr>
+  `;
+  jeffCupData.playerStats.forEach(p => {
+    statsHTML += `
+      <tr>
+        <td>${p.name}</td>
+        <td>${p.position}</td>
+        <td>${p.goals}</td>
+        <td>${p.assists}</td>
+      </tr>
+    `;
+  });
+  statsHTML += "</table>";
+  document.getElementById("jeff-player-stats").innerHTML = statsHTML;
+}
+
+function showJeffOpponent(i) {
+  const opp = jeffCupData.opponents[i];
+  const box = document.getElementById("jeff-opponent-detail");
+  box.style.display = "block";
+  box.innerHTML = `
+    <h3>${opp.name}</h3>
+    <p><strong>Club:</strong> ${opp.club}</p>
+    <p><strong>Style:</strong> ${opp.style}</p>
+    <p><strong>Key Focus for RU:</strong> ${opp.focus}</p>
+  `;
+}
+
+/* Neon cursor follower */
+document.addEventListener("mousemove", (e) => {
+  const cursor = document.getElementById("neonCursor");
+  cursor.style.left = e.clientX + "px";
+  cursor.style.top = e.clientY + "px";
+});
+</script>
+
+</body>
+</html>
