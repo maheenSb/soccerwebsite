@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Maheen’s Soccer Hub</title>
+
+<style>
+/* Background image */
+body {
+  margin:0;
+  padding:20px;
+  font-family:Arial, sans-serif;
+  color:white;
+  background:url('soccer-bg.jpg'); /* Replace with your image file */
+  background-size:cover;
+  background-position:center;
+  background-attachment:fixed;
+}
+
+/* Dark overlay for readability */
+.overlay {
+  background:rgba(0,0,0,0.65);
+  padding:20px;
+  border-radius:10px;
+}
+
+/* Neon title */
+h1 {
+  text-align:center;
+  font-size:48px;
+  color:#39ff14;
+  text-shadow:0 0 15px #39ff14;
+}
+
+/* Neon team buttons */
+.team-buttons {
+  margin-top:30px;
+  display:flex;
+  flex-wrap:wrap;
+  gap:20px;
+  justify-content:center;
+}
+
+.team-buttons a {
+  padding:20px 30px;
+  background:#111;
+  border:3px solid #00eaff;
+  color:#00eaff;
+  font-size:20px;
+  font-weight:bold;
+  text-decoration:none;
+  border-radius:12px;
+  box-shadow:0 0 12px #00eaff;
+  transition:0.2s;
+}
+
+.team-buttons a:hover {
+  background:#00eaff;
+  color:#000;
+  box-shadow:0 0 20px #00eaff;
+}
+
+/* Search bar */
+.search-box input {
+  width:100%;
+  padding:15px;
+  font-size:18px;
+  border:2px solid #39ff14;
+  background:#111;
+  color:white;
+  border-radius:8px;
+  outline:none;
+}
+.search-box input:focus {
+  box-shadow:0 0 10px #39ff14;
+}
+</style>
+</head>
+
+<body>
+<div class="overlay">
+
+<h1>Maheen’s Soccer Hub</h1>
+
+<div class="search-box">
+  <input type="text" placeholder="Search teams, tournaments, brackets...">
+</div>
+
+<div class="team-buttons">
+  <a href="team-vys-phoenix.html">VYS Phoenix Pre ECNL 15G</a>
+  <a href="team-va-reign.html">2015 VA Reign Elite Pre ECNL</a>
+  <a href="team-ru-red.html">RU Red Pre ECNL 2</a>
+  <a href="team-gfr.html">Great Falls Reston Pre ECNL</a>
+  <a href="team-bryc.html">BRYC Elite Academy G15 Pre ECNL</a>
+</div>
+
+</div>
+</body>
+</html>
