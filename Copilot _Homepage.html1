@@ -1,101 +1,1026 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<title>Maheen’s Soccer Hub</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>TurfVision — Jefferson Cup • Premier</title>
+  <style>
+    :root{
+      --bg:#041018;
+      --panel:#0b1620;
+      --panel-2:#0f2430;
+      --muted:#9fb6c8;
+      --neon-blue:#00aaff;
+      --neon-green:#39ff14;
+      --accent:#7ef0b8;
+      --glass: rgba(255,255,255,0.04);
+      --glass-2: rgba(255,255,255,0.02);
+      --card-radius:14px;
+      --max-width:1100px;
+      --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, "Roboto Mono", "Segoe UI Mono", monospace;
+      --ui: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      font-family:var(--ui);
+      color:#eaf6ff;
+      background:linear-gradient(180deg,#031018 0%,#021018 60%,#00060a 100%);
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+      overflow-y:auto;
+    }
 
-<style>
-/* Full Turf Background */
-body {
-  margin:0;
-  padding:20px;
-  font-family:Arial, sans-serif;
-  color:white;
-  background:url('https://i.imgur.com/8w7iK5y.jpeg'); /* Turf image */
-  background-size:cover;
-  background-position:center;
-  background-attachment:fixed;
-}
+    /* ---------- Animated Hybrid Background (Neon Turf + Stadium Lights) ---------- */
+    .bg-wrap{
+      position:fixed;
+      inset:0;
+      z-index:0;
+      pointer-events:none;
+      overflow:hidden;
+    }
 
-/* Dark overlay so neon pops */
-.overlay {
-  background:rgba(0,0,0,0.65);
-  padding:20px;
-  border-radius:10px;
-}
+    /* turf texture (subtle noise + stripes) */
+    .turf{
+      position:absolute;
+      inset:0;
+      background:
+        linear-gradient(180deg, rgba(0,0,0,0.12), rgba(0,0,0,0.28)),
+        repeating-linear-gradient(90deg, rgba(0,0,0,0.02) 0 2px, transparent 2px 6px),
+        linear-gradient(180deg, rgba(0,40,20,0.25), rgba(0,20,10,0.35));
+      transform:translateZ(0);
+      filter:contrast(1.05) saturate(1.1);
+    }
 
-/* Neon Title */
-h1 {
-  text-align:center;
-  font-size:48px;
-  color:#39ff14;
-  text-shadow:0 0 15px #39ff14;
-}
+    /* moving neon lines (field lines) */
+    .neon-lines{
+      position:absolute;
+      inset:0;
+      background:
+        radial-gradient(circle at 50% 10%, rgba(0,170,255,0.06), transparent 20%),
+        radial-gradient(circle at 50% 90%, rgba(57,255,20,0.04), transparent 20%);
+      mix-blend-mode:screen;
+      opacity:0.95;
+    }
+    .neon-lines::before,
+    .neon-lines::after{
+      content:"";
+      position:absolute;
+      left:-40%;
+      right:-40%;
+      top:0;
+      bottom:0;
+      background:
+        linear-gradient(90deg, transparent 0%, rgba(57,255,20,0.06) 20%, rgba(0,170,255,0.06) 50%, rgba(57,255,20,0.06) 80%, transparent 100%);
+      transform:skewX(-12deg);
+      animation: slideLines 18s linear infinite;
+      filter:blur(8px);
+      opacity:0.9;
+    }
+    .neon-lines::after{
+      animation-duration:26s;
+      filter:blur(14px);
+      opacity:0.6;
+    }
+    @keyframes slideLines{
+      0%{transform:translateX(-30%) skewX(-12deg)}
+      50%{transform:translateX(30%) skewX(-12deg)}
+      100%{transform:translateX(-30%) skewX(-12deg)}
+    }
 
-/* Neon Tournament Buttons */
-.tournament-buttons {
-  margin-top:30px;
-  display:flex;
-  flex-wrap:wrap;
-  gap:20px;
-  justify-content:center;
-}
+    /* stadium light beams */
+    .light-beams{
+      position:absolute;
+      inset:0;
+      pointer-events:none;
+      mix-blend-mode:screen;
+      opacity:0.9;
+    }
+    .beam{
+      position:absolute;
+      width:40%;
+      height:120%;
+      top:-10%;
+      background:linear-gradient(180deg, rgba(255,255,255,0.12), rgba(255,255,255,0.02));
+      transform-origin:center top;
+      filter:blur(28px);
+      opacity:0.9;
+      animation: sweep 8s ease-in-out infinite;
+    }
+    .beam.b1{left:-10%; transform:rotate(-18deg); animation-delay:0s}
+    .beam.b2{left:30%; transform:rotate(6deg); animation-delay:1.6s}
+    .beam.b3{right:-10%; transform:rotate(18deg); animation-delay:3.2s}
+    @keyframes sweep{
+      0%{opacity:0; transform:scaleY(0.9) rotate(0deg)}
+      20%{opacity:0.6}
+      50%{opacity:0.9; transform:scaleY(1.05) rotate(2deg)}
+      80%{opacity:0.6}
+      100%{opacity:0; transform:scaleY(0.9) rotate(0deg)}
+    }
 
-.tournament-buttons a {
-  padding:20px 30px;
-  background:#111;
-  border:3px solid #00eaff;
-  color:#00eaff;
-  font-size:22px;
-  font-weight:bold;
-  text-decoration:none;
-  border-radius:12px;
-  box-shadow:0 0 12px #00eaff;
-  transition:0.2s;
-}
+    /* subtle vignette */
+    .vignette{
+      position:absolute;
+      inset:0;
+      background:radial-gradient(ellipse at center, rgba(0,0,0,0) 40%, rgba(0,0,0,0.45) 100%);
+      pointer-events:none;
+    }
 
-.tournament-buttons a:hover {
-  background:#00eaff;
-  color:#000;
-  box-shadow:0 0 20px #00eaff;
-}
+    /* ---------- Page Shell ---------- */
+    .site{
+      position:relative;
+      z-index:2;
+      max-width:var(--max-width);
+      margin:28px auto;
+      padding:18px;
+    }
 
-/* Search Bar */
-.search-box input {
-  width:100%;
-  padding:15px;
-  font-size:18px;
-  border:2px solid #39ff14;
-  background:#111;
-  color:white;
-  border-radius:8px;
-  outline:none;
-}
-.search-box input:focus {
-  box-shadow:0 0 10px #39ff14;
-}
-</style>
+    /* ---------- Top Nav ---------- */
+    .nav{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:12px;
+      padding:10px 14px;
+      border-radius:12px;
+      background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+      border:1px solid rgba(255,255,255,0.04);
+      box-shadow:0 8px 30px rgba(0,0,0,0.6);
+      backdrop-filter: blur(6px);
+    }
+    .nav-left{display:flex;align-items:center;gap:12px}
+    .logo{
+      display:flex;
+      align-items:center;
+      gap:12px;
+    }
+    .logo img{
+      width:64px;
+      height:64px;
+      object-fit:contain;
+      border-radius:10px;
+      box-shadow:0 8px 30px rgba(0,0,0,0.6), 0 0 18px rgba(0,170,255,0.12);
+      background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+      padding:6px;
+    }
+    .brand{
+      display:flex;
+      flex-direction:column;
+      line-height:1;
+    }
+    .brand .title{
+      font-weight:800;
+      font-size:18px;
+      letter-spacing:1px;
+      color:linear-gradient(90deg,var(--neon-green),var(--neon-blue));
+      text-shadow:0 0 10px rgba(0,170,255,0.12), 0 0 8px rgba(57,255,20,0.06);
+    }
+    .brand .sub{font-size:11px;color:var(--muted);margin-top:2px}
+
+    .nav-right{display:flex;gap:8px;align-items:center}
+    .nav-btn{
+      background:transparent;
+      border:1px solid rgba(255,255,255,0.06);
+      color:var(--muted);
+      padding:8px 12px;
+      border-radius:999px;
+      cursor:pointer;
+      font-weight:700;
+      font-size:13px;
+    }
+    .nav-btn.active{
+      background:linear-gradient(90deg,var(--neon-blue),var(--neon-green));
+      color:#001;
+      box-shadow:0 8px 30px rgba(0,170,255,0.12);
+      border-color:transparent;
+    }
+
+    /* ---------- Hero ---------- */
+    .hero{
+      margin-top:18px;
+      display:grid;
+      grid-template-columns:1fr 420px;
+      gap:18px;
+      align-items:stretch;
+    }
+    @media(max-width:980px){ .hero{grid-template-columns:1fr} .nav{flex-direction:column;align-items:stretch} .nav-right{justify-content:flex-end} }
+    .hero-card{
+      background:linear-gradient(180deg,var(--panel),var(--panel-2));
+      border-radius:var(--card-radius);
+      padding:18px;
+      border:1px solid rgba(255,255,255,0.04);
+      box-shadow:0 18px 40px rgba(0,0,0,0.6);
+    }
+    .hero-left{
+      display:flex;
+      flex-direction:column;
+      gap:12px;
+    }
+    .hero-logo{
+      display:flex;
+      align-items:center;
+      gap:14px;
+    }
+    .hero-logo img{
+      width:120px;height:120px;object-fit:contain;border-radius:12px;padding:8px;background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));box-shadow:0 18px 40px rgba(0,0,0,0.6), 0 0 22px rgba(0,170,255,0.12);
+    }
+    .hero-h{
+      font-size:28px;
+      font-weight:800;
+      letter-spacing:1px;
+      text-transform:uppercase;
+      color: #dffefe;
+      text-shadow:0 0 12px rgba(0,170,255,0.12), 0 0 8px rgba(57,255,20,0.06);
+    }
+    .hero-sub{color:var(--muted);font-size:14px;max-width:640px}
+
+    .hero-cta{display:flex;gap:10px;margin-top:8px}
+    .btn{
+      padding:10px 14px;border-radius:999px;border:0;font-weight:800;cursor:pointer;font-size:13px;
+    }
+    .btn-primary{background:linear-gradient(90deg,var(--neon-blue),var(--neon-green));color:#001;box-shadow:0 12px 30px rgba(0,170,255,0.12)}
+    .btn-ghost{background:transparent;border:1px solid rgba(255,255,255,0.06);color:var(--muted)}
+
+    /* hero right: half-field card */
+    .field-card{
+      border-radius:12px;
+      overflow:hidden;
+      position:relative;
+      min-height:220px;
+      background:linear-gradient(180deg, rgba(0,0,0,0.12), rgba(0,0,0,0.22));
+      border:1px solid rgba(255,255,255,0.04);
+    }
+    .half-field{
+      position:absolute;inset:12px;border-radius:10px;border:2px solid rgba(57,255,20,0.12);background:linear-gradient(180deg, rgba(0,40,20,0.12), rgba(0,20,10,0.18));
+      transform:perspective(700px) rotateX(12deg);
+      box-shadow:0 18px 40px rgba(0,0,0,0.6), 0 0 18px rgba(57,255,20,0.04);
+    }
+    .half-field .line{position:absolute;left:50%;top:6%;bottom:6%;width:2px;background:rgba(57,255,20,0.12)}
+    .half-field .arc{position:absolute;left:50%;top:50%;width:120px;height:120px;margin-left:-60px;margin-top:-60px;border-radius:50%;border:2px solid rgba(57,255,20,0.12)}
+    .half-field .box{position:absolute;left:50%;top:6%;width:160px;height:70px;margin-left:-80px;border:2px solid rgba(57,255,20,0.12);border-bottom:0}
+
+    /* ---------- Sections ---------- */
+    .section{
+      margin-top:18px;
+      background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+      border-radius:var(--card-radius);
+      padding:14px;
+      border:1px solid rgba(255,255,255,0.04);
+      box-shadow:0 12px 30px rgba(0,0,0,0.6);
+    }
+    .section h2{margin:0 0 8px 0;font-size:16px}
+    .muted{color:var(--muted);font-size:13px}
+
+    /* teams grid */
+    .team-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px;margin-top:12px}
+    .team-card{
+      background:linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.00));
+      padding:10px;border-radius:10px;border-left:4px solid rgba(0,170,255,0.12);
+      display:flex;flex-direction:column;gap:6px;
+    }
+    .team-card strong{font-size:13px}
+    .team-card .meta{font-size:12px;color:var(--muted)}
+
+    /* tournaments tabs */
+    .tabs{display:flex;gap:8px;margin-top:8px}
+    .tab{padding:8px 12px;border-radius:999px;border:1px solid rgba(255,255,255,0.04);background:transparent;color:var(--muted);cursor:pointer;font-weight:700}
+    .tab.active{background:linear-gradient(90deg,var(--neon-blue),var(--neon-green));color:#001;border-color:transparent;box-shadow:0 12px 30px rgba(0,170,255,0.08)}
+
+    /* standings table */
+    .table-wrap{overflow:auto;margin-top:12px}
+    table{width:100%;border-collapse:collapse;font-size:13px}
+    th,td{padding:8px 10px;text-align:left;border-bottom:1px solid rgba(255,255,255,0.03)}
+    th{background:rgba(255,255,255,0.02);color:var(--muted);font-weight:700}
+    tbody tr:nth-child(odd){background:rgba(255,255,255,0.01)}
+
+    /* RU Team Page */
+    .team-header{display:flex;gap:14px;align-items:center}
+    .team-header .logo-sm{width:84px;height:84px;border-radius:10px;object-fit:contain;background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));padding:8px}
+    .team-meta{display:flex;flex-direction:column;gap:6px}
+    .rank-badges{display:flex;gap:8px;align-items:center}
+    .badge{padding:6px 10px;border-radius:999px;background:rgba(255,255,255,0.02);font-weight:800;color:var(--muted);font-size:13px;border:1px solid rgba(255,255,255,0.03)}
+
+    /* editable boxes */
+    .editable{
+      width:100%;
+      min-height:64px;
+      padding:10px;
+      border-radius:10px;
+      background:linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.00));
+      border:1px dashed rgba(255,255,255,0.04);
+      color:var(--muted);
+      resize:vertical;
+      font-size:13px;
+    }
+    .label{font-size:12px;color:var(--muted);margin-bottom:6px}
+
+    /* video grid */
+    .video-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px;margin-top:12px}
+    .video-card{background:linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.00));padding:10px;border-radius:10px;border:1px solid rgba(255,255,255,0.04)}
+    .video-card input{width:100%;padding:8px;border-radius:8px;border:1px solid rgba(255,255,255,0.04);background:transparent;color:var(--muted)}
+    .video-card iframe{width:100%;height:160px;border-radius:8px;border:0;margin-top:8px}
+
+    .add-video{display:inline-flex;gap:8px;align-items:center;padding:8px 12px;border-radius:999px;background:linear-gradient(90deg,var(--neon-blue),var(--neon-green));color:#001;font-weight:800;border:0;cursor:pointer}
+
+    /* match notes */
+    .notes-list{display:flex;flex-direction:column;gap:10px;margin-top:10px}
+    .note{background:linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.00));padding:10px;border-radius:10px;border:1px solid rgba(255,255,255,0.04)}
+    .note .meta{font-size:12px;color:var(--muted);margin-bottom:6px}
+    .note .text{font-size:13px;color:var(--muted)}
+
+    /* small helpers */
+    .muted-2{color:#bcd7e6;font-size:12px}
+    .right{margin-left:auto}
+    .center{text-align:center}
+    .small{font-size:12px;color:var(--muted)}
+    footer{margin:28px 0 80px 0;color:var(--muted);font-size:13px;text-align:center}
+  </style>
 </head>
-
 <body>
+  <!-- Animated background layers -->
+  <div class="bg-wrap" aria-hidden="true">
+    <div class="turf"></div>
+    <div class="neon-lines"></div>
+    <div class="light-beams">
+      <div class="beam b1"></div>
+      <div class="beam b2"></div>
+      <div class="beam b3"></div>
+    </div>
+    <div class="vignette"></div>
+  </div>
 
-<div class="overlay">
+  <div class="site" role="main">
+    <!-- NAV -->
+    <header class="nav" role="banner">
+      <div class="nav-left">
+        <div class="logo">
+          <!-- Replace turfvision_logo.png with your actual logo file in the same folder -->
+          <img src="turfvision_logo.png" alt="TurfVision logo" id="navLogo">
+          <div class="brand">
+            <div class="title">TurfVision</div>
+            <div class="sub">Jefferson Cup • Premier</div>
+          </div>
+        </div>
+      </div>
 
-<h1>Maheen’s Soccer Hub</h1>
+      <nav class="nav-right" aria-label="Main navigation">
+        <button class="nav-btn active" id="navHomeBtn">Home</button>
+        <button class="nav-btn" id="navTeamsBtn">Teams</button>
+        <button class="nav-btn" id="navTournBtn">Tournaments</button>
+      </nav>
+    </header>
 
-<div class="search-box">
-  <input type="text" placeholder="Search teams, tournaments, brackets...">
-</div>
+    <!-- HERO -->
+    <section id="homeSection" class="hero-card hero" aria-labelledby="homeTitle">
+      <div class="hero-left hero-card">
+        <div class="hero-logo">
+          <img src="turfvision_logo.png" alt="TurfVision logo large" id="heroLogo">
+          <div>
+            <div id="homeTitle" class="hero-h">TurfVision</div>
+            <div class="hero-sub">Live tournament hub for Jefferson Cup Premier • U11 Girls. Team pages, editable scouting notes, and a video library for Richmond United RU Pre‑ECNL 2.</div>
+            <div class="hero-cta">
+              <button class="btn btn-primary" id="gotoJeff">View Jefferson Cup</button>
+              <button class="btn btn-ghost" id="gotoTeams">View Teams</button>
+            </div>
+          </div>
+        </div>
 
-<div class="tournament-buttons">
-  <a href="#">Jefferson Cup</a>
-  <a href="#">Virginia Cup</a>
-  <a href="#">Winter Indoor League</a>
-  <a href="#">Spring Invitational</a>
-  <a href="#">State Championship</a>
-</div>
+        <div class="section">
+          <h2>Quick Overview</h2>
+          <p class="muted">Standings are initialized at 0. Use the RU team page to store scouting notes, training focuses, and match videos. Everything you edit on the RU page is saved locally in your browser.</p>
+        </div>
 
-</div>
+        <div class="section">
+          <h2>RU Pre‑ECNL 2 Snapshot</h2>
+          <div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap">
+            <div style="min-width:160px">
+              <div class="small">Team</div>
+              <strong>Richmond United U11 Pre ECNL Orange 2</strong>
+            </div>
+            <div style="min-width:120px">
+              <div class="small">State Rank</div>
+              <div class="muted-2">#38</div>
+            </div>
+            <div style="min-width:120px">
+              <div class="small">National</div>
+              <div class="muted-2">#649</div>
+            </div>
+            <div style="margin-left:auto">
+              <button class="btn btn-primary" id="openRU">Open RU Pre‑ECNL 2</button>
+            </div>
+          </div>
+        </div>
+      </div>
 
+      <div class="field-card">
+        <div class="half-field">
+          <div class="line"></div>
+          <div class="arc"></div>
+          <div class="box"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TEAMS -->
+    <section id="teamsSection" class="section hidden" aria-labelledby="teamsTitle">
+      <h2 id="teamsTitle">Teams</h2>
+      <p class="muted">Premier bracket teams for Jefferson Cup • click a team to view its page.</p>
+
+      <div class="team-grid">
+        <!-- Bracket A -->
+        <div class="team-card">
+          <strong>Delaware FC 15G Pre ECNL Black (DE)</strong>
+          <div class="meta">Bracket A • Premier</div>
+        </div>
+        <div class="team-card">
+          <strong>Harrison Wolfpack 2015 (NJ)</strong>
+          <div class="meta">Bracket A • Premier</div>
+        </div>
+        <div class="team-card">
+          <strong>SEVERNA PARK 15G - GREEN (MD)</strong>
+          <div class="meta">Bracket A • Premier</div>
+        </div>
+
+        <!-- Bracket B -->
+        <div class="team-card">
+          <strong>Charlotte SA 15G Charlotte Elite 3 (NC)</strong>
+          <div class="meta">Bracket B • Premier</div>
+        </div>
+        <div class="team-card">
+          <strong>Lehigh Valley United 2015 Girls Black (PAE)</strong>
+          <div class="meta">Bracket B • Premier</div>
+        </div>
+        <div class="team-card">
+          <strong>Scorpions SC 2015 State Select Girls (MA)</strong>
+          <div class="meta">Bracket B • Premier</div>
+        </div>
+
+        <!-- Bracket C -->
+        <div class="team-card">
+          <strong>Bethesda E 2 2015 (MD)</strong>
+          <div class="meta">Bracket C • Premier</div>
+        </div>
+        <div class="team-card">
+          <strong>BRYC Academy G15 Pre-ECNL (VA)</strong>
+          <div class="meta">Bracket C • Premier</div>
+        </div>
+        <div class="team-card">
+          <strong>NCFC Youth 15G Gold North (NC)</strong>
+          <div class="meta">Bracket C • Premier</div>
+        </div>
+
+        <!-- Bracket D -->
+        <div class="team-card">
+          <strong>Match Fit Surf Pre-ECNL II G15 (NJ)</strong>
+          <div class="meta">Bracket D • Premier</div>
+        </div>
+        <div class="team-card">
+          <strong>Old Line FC Girls 15 Black (MD)</strong>
+          <div class="meta">Bracket D • Premier</div>
+        </div>
+        <div class="team-card">
+          <strong>RU ORANGE PRE ECNL 2 G15 (VA)</strong>
+          <div class="meta">Bracket D • Premier • Your Team</div>
+          <div style="margin-top:8px;display:flex;gap:8px">
+            <button class="nav-btn" id="viewRUFromTeams">View Team Page</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TOURNAMENTS -->
+    <section id="tournamentsSection" class="section hidden" aria-labelledby="tournTitle">
+      <h2 id="tournTitle">Tournaments</h2>
+      <p class="muted">Jefferson Cup Premier and ASIST placeholders. Jefferson Cup is ready with brackets and zeroed standings.</p>
+
+      <div class="tabs" role="tablist" aria-label="Tournament tabs">
+        <button class="tab active" id="tabJeff">Jefferson Cup</button>
+        <button class="tab" id="tabAsist">ASIST</button>
+      </div>
+
+      <!-- JEFFERSON CUP -->
+      <div id="jeffSection" style="margin-top:12px">
+        <h1 style="font-size:20px;margin:6px 0 4px 0;letter-spacing:1px;text-transform:uppercase">Jefferson Cup</h1>
+        <h3 style="font-size:15px;margin:0 0 8px 0;color:var(--muted)">Premier Division • U11 Girls</h3>
+
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px">
+          <div class="section" style="padding:10px">
+            <strong style="color:var(--neon-blue)">Bracket A</strong>
+            <ul style="margin-top:8px;color:var(--muted);list-style:none;padding-left:0">
+              <li>Delaware FC 15G Pre ECNL Black (DE)</li>
+              <li>Harrison Wolfpack 2015 (NJ)</li>
+              <li>SEVERNA PARK 15G - GREEN (MD)</li>
+            </ul>
+          </div>
+          <div class="section" style="padding:10px">
+            <strong style="color:var(--neon-blue)">Bracket B</strong>
+            <ul style="margin-top:8px;color:var(--muted);list-style:none;padding-left:0">
+              <li>Charlotte SA 15G Charlotte Elite 3 (NC)</li>
+              <li>Lehigh Valley United 2015 Girls Black (PAE)</li>
+              <li>Scorpions SC 2015 State Select Girls (MA)</li>
+            </ul>
+          </div>
+          <div class="section" style="padding:10px">
+            <strong style="color:var(--neon-blue)">Bracket C</strong>
+            <ul style="margin-top:8px;color:var(--muted);list-style:none;padding-left:0">
+              <li>Bethesda E 2 2015 (MD)</li>
+              <li>BRYC Academy G15 Pre-ECNL (VA)</li>
+              <li>NCFC Youth 15G Gold North (NC)</li>
+            </ul>
+          </div>
+          <div class="section" style="padding:10px">
+            <strong style="color:var(--neon-blue)">Bracket D</strong>
+            <ul style="margin-top:8px;color:var(--muted);list-style:none;padding-left:0">
+              <li>Match Fit Surf Pre-ECNL II G15 (NJ)</li>
+              <li>Old Line FC Girls 15 Black (MD)</li>
+              <li>RU ORANGE PRE ECNL 2 G15 (VA)</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="table-wrap section" style="margin-top:12px">
+          <table aria-label="Jefferson Cup standings">
+            <thead>
+              <tr>
+                <th>Team</th><th>Bracket</th><th>GP</th><th>W</th><th>D</th><th>L</th><th>GF</th><th>GA</th><th>GD</th><th>PTS</th>
+              </tr>
+            </thead>
+            <tbody>
+              <!-- A -->
+              <tr><td>Delaware FC 15G Pre ECNL Black (DE)</td><td>A</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
+              <tr><td>Harrison Wolfpack 2015 (NJ)</td><td>A</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
+              <tr><td>SEVERNA PARK 15G - GREEN (MD)</td><td>A</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
+              <!-- B -->
+              <tr><td>Charlotte SA 15G Charlotte Elite 3 (NC)</td><td>B</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
+              <tr><td>Lehigh Valley United 2015 Girls Black (PAE)</td><td>B</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
+              <tr><td>Scorpions SC 2015 State Select Girls (MA)</td><td>B</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
+              <!-- C -->
+              <tr><td>Bethesda E 2 2015 (MD)</td><td>C</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
+              <tr><td>BRYC Academy G15 Pre-ECNL (VA)</td><td>C</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
+              <tr><td>NCFC Youth 15G Gold North (NC)</td><td>C</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
+              <!-- D -->
+              <tr><td>Match Fit Surf Pre-ECNL II G15 (NJ)</td><td>D</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
+              <tr><td>Old Line FC Girls 15 Black (MD)</td><td>D</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
+              <tr><td>RU ORANGE PRE ECNL 2 G15 (VA)</td><td>D</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- ASIST -->
+      <div id="asistSection" class="hidden" style="margin-top:12px">
+        <div class="section">
+          <h3>ASIST</h3>
+          <p class="muted">Coming Soon — bracket layout and standings will appear here when available.</p>
+          <div style="margin-top:8px" class="muted-2">Planned features: bracket layout, team list, standings, schedule links.</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- RU TEAM PAGE -->
+    <section id="ruSection" class="section hidden" aria-labelledby="ruTitle">
+      <div style="display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap">
+        <div style="display:flex;gap:12px;align-items:center">
+          <img src="Richmond_united_logo.png" alt="RU logo" class="logo-sm" id="ruLogo">
+          <div>
+            <h2 id="ruTitle" style="margin:0">Richmond United U11 Pre ECNL Orange 2</h2>
+            <div class="muted">RU Pre‑ECNL 2 • State #38 • National #649</div>
+          </div>
+        </div>
+        <div class="rank-badges">
+          <div class="badge">State #38</div>
+          <div class="badge">National #649</div>
+          <div class="badge">Roster: Coming Soon</div>
+        </div>
+      </div>
+
+      <div style="display:grid;grid-template-columns:1fr 360px;gap:12px;margin-top:12px">
+        <!-- left column -->
+        <div>
+          <div class="section">
+            <h3 style="margin:0 0 8px 0">How We Play</h3>
+            <div class="label">Style of Play</div>
+            <textarea id="style_play" class="editable" placeholder="Describe your team's style (possession, press, counter, etc.)"></textarea>
+
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px">
+              <div>
+                <div class="label">Formations</div>
+                <textarea id="formations" class="editable" placeholder="Primary formations used (e.g., 4-3-3, 4-2-3-1)"></textarea>
+              </div>
+              <div>
+                <div class="label">Pressing / Defense</div>
+                <textarea id="press_def" class="editable" placeholder="How the team presses and defends"></textarea>
+              </div>
+            </div>
+
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px">
+              <div>
+                <div class="label">Attacking</div>
+                <textarea id="attacking" class="editable" placeholder="Attacking tendencies and patterns"></textarea>
+              </div>
+              <div>
+                <div class="label">Build Out</div>
+                <textarea id="buildout" class="editable" placeholder="Build-out strategy from the back"></textarea>
+              </div>
+            </div>
+
+            <div style="margin-top:10px">
+              <div class="label">Strengths</div>
+              <textarea id="strengths" class="editable" placeholder="Team strengths"></textarea>
+            </div>
+
+            <div style="margin-top:10px">
+              <div class="label">What We're Working On</div>
+              <textarea id="working_on" class="editable" placeholder="Season focuses, technical & tactical goals"></textarea>
+            </div>
+          </div>
+
+          <div class="section" style="margin-top:12px">
+            <h3 style="margin:0 0 8px 0">Learning & Development</h3>
+            <div class="label">Team Goals</div>
+            <textarea id="team_goals" class="editable" placeholder="Team goals for the season"></textarea>
+
+            <div style="margin-top:10px">
+              <div class="label">Individual Player Goals</div>
+              <textarea id="player_goals" class="editable" placeholder="Examples: improve weak foot, fitness, decision-making"></textarea>
+            </div>
+
+            <div style="margin-top:10px">
+              <div class="label">Tactical Goals</div>
+              <textarea id="tactical_goals" class="editable" placeholder="Tactical focuses (press triggers, shape, transitions)"></textarea>
+            </div>
+          </div>
+
+          <div class="section" style="margin-top:12px">
+            <h3 style="margin:0 0 8px 0">Match Notes</h3>
+            <div style="display:flex;gap:8px;align-items:center">
+              <input id="noteOpponent" placeholder="Opponent" style="flex:1;padding:8px;border-radius:8px;border:1px solid rgba(255,255,255,0.04);background:transparent;color:var(--muted)">
+              <input id="noteScore" placeholder="Score" style="width:120px;padding:8px;border-radius:8px;border:1px solid rgba(255,255,255,0.04);background:transparent;color:var(--muted)">
+              <button class="add-video" id="addNoteBtn">Add Note</button>
+            </div>
+            <div style="margin-top:10px" class="notes-list" id="notesList">
+              <!-- notes render here -->
+            </div>
+          </div>
+        </div>
+
+        <!-- right column -->
+        <aside>
+          <div class="section">
+            <h3 style="margin:0 0 8px 0">Roster</h3>
+            <div class="muted">Roster: Coming Soon</div>
+            <div style="margin-top:10px">
+              <div class="label">Team Colors</div>
+              <div class="muted-2">Orange / White / Navy (example)</div>
+            </div>
+          </div>
+
+          <div class="section" style="margin-top:12px">
+            <h3 style="margin:0 0 8px 0">Video Library</h3>
+            <div class="muted">Paste YouTube, Hudl, or Drive links. Videos are saved locally.</div>
+            <div style="margin-top:10px;display:flex;gap:8px">
+              <button class="add-video" id="addVideoBtn">+ Add Video</button>
+            </div>
+
+            <div class="video-grid" id="videoGrid" style="margin-top:12px">
+              <!-- video cards inserted here -->
+            </div>
+          </div>
+
+          <div class="section" style="margin-top:12px">
+            <h3 style="margin:0 0 8px 0">Quick Notes</h3>
+            <div class="muted">Use this area for quick reminders or training notes.</div>
+            <textarea id="quick_notes" class="editable" placeholder="Quick notes..."></textarea>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <footer>
+      TurfVision — Jefferson Cup • Premier • Editable team pages saved locally
+    </footer>
+  </div>
+
+  <script>
+    /* ---------- Simple SPA navigation ---------- */
+    const homeSection = document.getElementById('homeSection');
+    const teamsSection = document.getElementById('teamsSection');
+    const tournSection = document.getElementById('tournamentsSection');
+    const ruSection = document.getElementById('ruSection');
+    const jeffSection = document.getElementById('jeffSection');
+    const asistSection = document.getElementById('asistSection');
+
+    const navHomeBtn = document.getElementById('navHomeBtn');
+    const navTeamsBtn = document.getElementById('navTeamsBtn');
+    const navTournBtn = document.getElementById('navTournBtn');
+    const gotoJeff = document.getElementById('gotoJeff');
+    const gotoTeams = document.getElementById('gotoTeams');
+    const openRU = document.getElementById('openRU');
+    const viewRUFromTeams = document.getElementById('viewRUFromTeams');
+    const tabJeff = document.getElementById('tabJeff');
+    const tabAsist = document.getElementById('tabAsist');
+
+    function showSection(name){
+      homeSection.classList.add('hidden');
+      teamsSection.classList.add('hidden');
+      tournSection.classList.add('hidden');
+      ruSection.classList.add('hidden');
+
+      navHomeBtn.classList.remove('active');
+      navTeamsBtn.classList.remove('active');
+      navTournBtn.classList.remove('active');
+
+      if(name==='home'){ homeSection.classList.remove('hidden'); navHomeBtn.classList.add('active') }
+      if(name==='teams'){ teamsSection.classList.remove('hidden'); navTeamsBtn.classList.add('active') }
+      if(name==='tournaments'){ tournSection.classList.remove('hidden'); navTournBtn.classList.add('active') }
+      if(name==='ru'){ ruSection.classList.remove('hidden'); }
+      window.scrollTo({top:0,behavior:'smooth'});
+    }
+
+    navHomeBtn.addEventListener('click',()=>showSection('home'));
+    navTeamsBtn.addEventListener('click',()=>showSection('teams'));
+    navTournBtn.addEventListener('click',()=>showSection('tournaments'));
+    gotoJeff.addEventListener('click',()=>{ showSection('tournaments'); tabJeff.click(); });
+    gotoTeams.addEventListener('click',()=>showSection('teams'));
+    openRU.addEventListener('click',()=>{ showSection('ru'); });
+    viewRUFromTeams.addEventListener('click',()=>{ showSection('ru'); });
+
+    tabJeff.addEventListener('click',()=>{
+      tabJeff.classList.add('active'); tabAsist.classList.remove('active');
+      jeffSection.classList.remove('hidden'); asistSection.classList.add('hidden');
+    });
+    tabAsist.addEventListener('click',()=>{
+      tabAsist.classList.add('active'); tabJeff.classList.remove('active');
+      asistSection.classList.remove('hidden'); jeffSection.classList.add('hidden');
+    });
+
+    // initial view
+    showSection('home');
+
+    /* ---------- LocalStorage helpers for RU page ---------- */
+    const LS_PREFIX = 'turfvision_ru_';
+
+    function lsGet(key, fallback){
+      try{
+        const v = localStorage.getItem(LS_PREFIX + key);
+        return v === null ? fallback : JSON.parse(v);
+      }catch(e){ return fallback; }
+    }
+    function lsSet(key, value){
+      try{ localStorage.setItem(LS_PREFIX + key, JSON.stringify(value)); }catch(e){}
+    }
+
+    /* ---------- Wire editable fields ---------- */
+    const editableIds = [
+      'style_play','formations','press_def','attacking','buildout',
+      'strengths','working_on','team_goals','player_goals','tactical_goals','quick_notes'
+    ];
+    editableIds.forEach(id=>{
+      const el = document.getElementById(id);
+      if(!el) return;
+      // load
+      el.value = lsGet(id, '');
+      // save on input (debounced)
+      let t;
+      el.addEventListener('input', ()=>{
+        clearTimeout(t);
+        t = setTimeout(()=> lsSet(id, el.value), 350);
+      });
+    });
+
+    /* ---------- Video Library ---------- */
+    const videoGrid = document.getElementById('videoGrid');
+    const addVideoBtn = document.getElementById('addVideoBtn');
+
+    function createVideoCard(url){
+      const card = document.createElement('div');
+      card.className = 'video-card';
+      const input = document.createElement('input');
+      input.placeholder = 'Paste YouTube / Hudl / Drive link';
+      input.value = url || '';
+      card.appendChild(input);
+
+      const preview = document.createElement('div');
+      preview.style.marginTop = '8px';
+      card.appendChild(preview);
+
+      const controls = document.createElement('div');
+      controls.style.display='flex';
+      controls.style.gap='8px';
+      controls.style.marginTop='8px';
+
+      const saveBtn = document.createElement('button');
+      saveBtn.className='nav-btn';
+      saveBtn.textContent='Save';
+      controls.appendChild(saveBtn);
+
+      const removeBtn = document.createElement('button');
+      removeBtn.className='nav-btn';
+      removeBtn.textContent='Remove';
+      controls.appendChild(removeBtn);
+
+      card.appendChild(controls);
+
+      function renderPreview(){
+        const v = input.value.trim();
+        preview.innerHTML = '';
+        if(!v) return;
+        // YouTube embed
+        const yt = parseYouTube(v);
+        if(yt){
+          const iframe = document.createElement('iframe');
+          iframe.src = 'https://www.youtube.com/embed/' + yt;
+          iframe.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture';
+          iframe.setAttribute('allowfullscreen','');
+          iframe.style.width='100%';
+          iframe.style.height='160px';
+          preview.appendChild(iframe);
+          return;
+        }
+        // Hudl or Drive or generic link: show clickable link
+        const a = document.createElement('a');
+        a.href = v;
+        a.target = '_blank';
+        a.rel = 'noopener';
+        a.textContent = 'Open video link';
+        a.className = 'muted-2';
+        preview.appendChild(a);
+      }
+
+      saveBtn.addEventListener('click', ()=>{
+        saveVideoCards();
+        renderVideoGrid();
+      });
+      removeBtn.addEventListener('click', ()=>{
+        // remove this card from DOM and save
+        card.remove();
+        saveVideoCards();
+        renderVideoGrid();
+      });
+
+      input.addEventListener('input', renderPreview);
+      renderPreview();
+      return card;
+    }
+
+    function parseYouTube(url){
+      try{
+        const u = new URL(url);
+        if(u.hostname.includes('youtube.com')){
+          return u.searchParams.get('v');
+        }
+        if(u.hostname === 'youtu.be'){
+          return u.pathname.slice(1);
+        }
+      }catch(e){}
+      return null;
+    }
+
+    function loadVideoCards(){
+      const arr = lsGet('videos', []);
+      return arr;
+    }
+    function saveVideoCards(){
+      const cards = Array.from(videoGrid.querySelectorAll('.video-card input')).map(i=>i.value.trim()).filter(Boolean);
+      lsSet('videos', cards);
+    }
+    function renderVideoGrid(){
+      videoGrid.innerHTML = '';
+      const arr = loadVideoCards();
+      if(arr.length === 0){
+        // show an empty slot
+        const placeholder = createVideoCard('');
+        videoGrid.appendChild(placeholder);
+      }else{
+        arr.forEach(url=>{
+          const card = createVideoCard(url);
+          videoGrid.appendChild(card);
+        });
+      }
+    }
+
+    addVideoBtn.addEventListener('click', ()=>{
+      const card = createVideoCard('');
+      videoGrid.appendChild(card);
+      // focus input
+      setTimeout(()=> card.querySelector('input').focus(), 80);
+    });
+
+    // initial render
+    renderVideoGrid();
+
+    /* ---------- Match Notes ---------- */
+    const notesList = document.getElementById('notesList');
+    const addNoteBtn = document.getElementById('addNoteBtn');
+    const noteOpponent = document.getElementById('noteOpponent');
+    const noteScore = document.getElementById('noteScore');
+
+    function loadNotes(){ return lsGet('notes', []); }
+    function saveNotes(notes){ lsSet('notes', notes); }
+
+    function renderNotes(){
+      notesList.innerHTML = '';
+      const notes = loadNotes();
+      if(notes.length === 0){
+        const p = document.createElement('div');
+        p.className='muted';
+        p.textContent = 'No match notes yet.';
+        notesList.appendChild(p);
+        return;
+      }
+      notes.slice().reverse().forEach((n, idx)=>{
+        const el = document.createElement('div');
+        el.className='note';
+        const meta = document.createElement('div');
+        meta.className='meta';
+        meta.innerHTML = `<strong>${n.opponent || 'Unknown'}</strong> • <span class="muted-2">${n.score || ''}</span> <span style="float:right"><button class="nav-btn" data-i="${idx}">Delete</button></span>`;
+        const text = document.createElement('div');
+        text.className='text';
+        text.textContent = n.text || '';
+        el.appendChild(meta);
+        el.appendChild(text);
+        notesList.appendChild(el);
+      });
+
+      // wire delete buttons
+      notesList.querySelectorAll('button[data-i]').forEach(btn=>{
+        btn.addEventListener('click', ()=>{
+          const i = parseInt(btn.getAttribute('data-i'),10);
+          const notes = loadNotes();
+          notes.splice(notes.length - 1 - i, 1); // reverse index
+          saveNotes(notes);
+          renderNotes();
+        });
+      });
+    }
+
+    addNoteBtn.addEventListener('click', ()=>{
+      const opp = noteOpponent.value.trim();
+      const score = noteScore.value.trim();
+      const text = prompt('Add quick note for this match (what went well / what to improve):') || '';
+      if(!opp && !score && !text) return;
+      const notes = loadNotes();
+      notes.push({opponent:opp, score:score, text:text, created:Date.now()});
+      saveNotes(notes);
+      noteOpponent.value=''; noteScore.value='';
+      renderNotes();
+    });
+
+    renderNotes();
+
+    /* ---------- Quick autosave for video grid and notes on unload ---------- */
+    window.addEventListener('beforeunload', ()=>{
+      saveVideoCards();
+    });
+
+    /* ---------- Small UX: focus first editable when RU opens ---------- */
+    const ruOpenButtons = [openRU, viewRUFromTeams, document.getElementById('viewRUFromTeams')];
+    ruOpenButtons.forEach(b=>{
+      if(!b) return;
+      b.addEventListener('click', ()=>{
+        setTimeout(()=> {
+          const el = document.getElementById('style_play');
+          if(el) el.focus();
+        }, 300);
+      });
+    });
+
+    /* ---------- Accessibility: keyboard shortcuts ---------- */
+    document.addEventListener('keydown', (e)=>{
+      if(e.key === '1'){ showSection('home'); }
+      if(e.key === '2'){ showSection('teams'); }
+      if(e.key === '3'){ showSection('tournaments'); }
+      if(e.key === '4'){ showSection('ru'); }
+    });
+
+    /* ---------- Small: load RU logo fallback if missing ---------- */
+    const ruLogo = document.getElementById('ruLogo');
+    ruLogo.onerror = ()=>{ ruLogo.src = 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="160" height="160"><rect width="100%" height="100%" fill="%23020b10"/><text x="50%" y="50%" fill="%23bfffd0" font-size="18" font-family="Arial" text-anchor="middle" alignment-baseline="middle">RU Logo</text></svg>'; };
+
+    /* ---------- small: nav logo fallback ---------- */
+    const navLogo = document.getElementById('navLogo');
+    navLogo.onerror = ()=>{ navLogo.src = 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="160" height="160"><rect width="100%" height="100%" fill="%23020b10"/><text x="50%" y="50%" fill="%23bfffd0" font-size="18" font-family="Arial" text-anchor="middle" alignment-baseline="middle">TurfVision</text></svg>'; };
+
+    /* ---------- small: hero logo fallback ---------- */
+    const heroLogo = document.getElementById('heroLogo');
+    heroLogo.onerror = ()=>{ heroLogo.src = navLogo.src; };
+
+    /* ---------- Ensure video grid renders saved videos on load ---------- */
+    (function initSavedVideos(){
+      const saved = loadVideoCards();
+      if(saved && saved.length){
+        // clear current grid and render saved
+        videoGrid.innerHTML = '';
+        saved.forEach(url=>{
+          const card = createVideoCard(url);
+          videoGrid.appendChild(card);
+        });
+      }
+    })();
+
+    /* ---------- Utility: createVideoCard used in initSavedVideos ---------- */
+    // (createVideoCard defined earlier; ensure it's available here)
+  </script>
 </body>
 </html>
