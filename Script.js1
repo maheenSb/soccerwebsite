@@ -1,526 +1,433 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <title>TurfVision</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <!-- Font -->
-  <link href="https://fonts.googleapis.com/css2?family=Lobster+Two:wght@400;700&display=swap" rel="stylesheet" />
-  <style>
-    :root {
-      --bg-dark: #05070b;
-      --bg-mid: #101521;
-      --accent: #1e88e5;
-      --accent-soft: #64b5f6;
-      --card-bg: #141926;
-      --border-soft: 1px solid rgba(255,255,255,0.08);
-      --radius: 12px;
-    }
+<meta charset="UTF-8">
+<title>TurfVision</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    * { margin: 0; padding: 0; box-sizing: border-box; }
+<!-- Font -->
+<link href="https://fonts.googleapis.com/css2?family=Lobster+Two:wght@700&display=swap" rel="stylesheet">
 
-    body {
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      background: radial-gradient(circle at top, #1b2735 0%, #090a0f 55%, #000 100%);
-      color: #f5f5f5;
-      min-height: 100vh;
-    }
+<style>
+  :root {
+    --glass: rgba(0,0,0,0.68);
+    --accent-soft: rgba(255,235,59,0.18);
+  }
 
-    /* Simple “soccer ball” style background using circles */
-    body::before {
-      content: "";
-      position: fixed;
-      inset: -20%;
-      background:
-        radial-gradient(circle at 20% 20%, rgba(255,255,255,0.06) 0, rgba(255,255,255,0.06) 18%, transparent 19%) repeat,
-        radial-gradient(circle at 60% 40%, rgba(255,255,255,0.04) 0, rgba(255,255,255,0.04) 16%, transparent 17%) repeat;
-      background-size: 220px 220px, 260px 260px;
-      opacity: 0.5;
-      z-index: -1;
-    }
+  * { box-sizing: border-box; }
 
+  body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: url('penalty-bg.png') center/cover no-repeat fixed;
+    color: white;
+  }
+
+  header {
+    background: rgba(0,0,0,0.78);
+    padding: 12px 18px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: sticky;
+    top: 0;
+    backdrop-filter: blur(6px);
+    z-index: 10;
+  }
+
+  .logo {
+    font-family: 'Lobster Two', cursive;
+    font-size: 30px;
+    letter-spacing: 2px;
+  }
+
+  nav {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+
+  nav a {
+    color: white;
+    text-decoration: none;
+    font-size: 14px;
+    padding: 6px 10px;
+    border-radius: 999px;
+    border: 1px solid rgba(255,255,255,0.25);
+    background: rgba(0,0,0,0.4);
+    transition: background 0.2s, transform 0.1s;
+  }
+
+  nav a:active { transform: scale(0.96); }
+  nav a:hover { background: rgba(255,255,255,0.15); }
+
+  main { padding-bottom: 40px; }
+
+  section {
+    padding: 28px 16px;
+    background: var(--glass);
+    margin: 22px auto;
+    width: 92%;
+    border-radius: 14px;
+    border: 1px solid rgba(255,255,255,0.18);
+    box-shadow: 0 18px 40px rgba(0,0,0,0.7);
+    animation: fadeInUp 0.5s ease forwards;
+    opacity: 0;
+  }
+
+  section:nth-of-type(1) { animation-delay: 0.05s; }
+  section:nth-of-type(2) { animation-delay: 0.1s; }
+  section:nth-of-type(3) { animation-delay: 0.15s; }
+  section:nth-of-type(4) { animation-delay: 0.2s; }
+  section:nth-of-type(5) { animation-delay: 0.25s; }
+  section:nth-of-type(6) { animation-delay: 0.3s; }
+
+  @keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(12px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  h2 {
+    font-family: 'Lobster Two', cursive;
+    font-size: 30px;
+    margin-bottom: 8px;
+  }
+
+  h3 {
+    margin-top: 18px;
+    margin-bottom: 6px;
+    font-size: 18px;
+  }
+
+  p { margin: 6px 0; font-size: 14px; }
+
+  .tagline {
+    font-size: 14px;
+    opacity: 0.9;
+    margin-bottom: 14px;
+  }
+
+  .quick-links {
+    display: grid;
+    gap: 10px;
+  }
+
+  .pill-btn {
+    background: rgba(255,255,255,0.12);
+    padding: 12px;
+    border-radius: 999px;
+    font-size: 14px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border: 1px solid rgba(255,255,255,0.2);
+    cursor: pointer;
+    transition: background 0.2s, transform 0.1s;
+  }
+
+  .pill-btn span { font-weight: 500; }
+  .pill-btn small { opacity: 0.8; font-size: 12px; }
+
+  .pill-btn:active { transform: scale(0.97); }
+  .pill-btn:hover { background: rgba(255,255,255,0.2); }
+
+  .teams-grid { display: grid; gap: 10px; }
+
+  .team-card {
+    background: rgba(255,255,255,0.12);
+    padding: 10px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .team-logo {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: radial-gradient(circle at 30% 30%, #ffffff, #cfd8dc);
+    border: 2px solid rgba(0,0,0,0.6);
+  }
+
+  .team-name { font-size: 14px; font-weight: 600; }
+  .team-meta { font-size: 12px; opacity: 0.8; }
+
+  ul { padding-left: 18px; font-size: 14px; }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+    font-size: 13px;
+  }
+
+  table, th, td {
+    border: 1px solid rgba(255,255,255,0.3);
+  }
+
+  th, td {
+    padding: 5px;
+    text-align: center;
+  }
+
+  th { background: rgba(255,255,255,0.12); }
+
+  .coming {
+    text-align: center;
+    padding: 22px;
+    background: var(--accent-soft);
+    border-radius: 10px;
+    font-size: 20px;
+    font-family: 'Lobster Two', cursive;
+    border: 1px solid rgba(255,255,255,0.4);
+  }
+
+  .badge {
+    display: inline-block;
+    padding: 3px 8px;
+    border-radius: 999px;
+    background: rgba(255,255,255,0.15);
+    font-size: 11px;
+    margin-bottom: 6px;
+  }
+
+  @media (max-width: 600px) {
     header {
-      position: sticky;
-      top: 0;
-      z-index: 10;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 0.75rem 1.5rem;
-      background: linear-gradient(to right, rgba(5,7,11,0.96), rgba(10,15,25,0.96));
-      border-bottom: var(--border-soft);
-      backdrop-filter: blur(10px);
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 6px;
     }
-
-    .logo {
-      display: flex;
-      align-items: center;
-      gap: 0.6rem;
-    }
-
-    .logo-ball {
-      width: 26px;
-      height: 26px;
-      border-radius: 50%;
-      background: radial-gradient(circle at 30% 30%, #ffffff, #cfd8dc);
-      border: 2px solid #263238;
-      box-shadow: 0 0 6px rgba(0,0,0,0.5);
-    }
-
-    .logo-text {
-      font-family: "Lobster Two", system-ui, sans-serif;
-      font-size: 1.4rem;
-      color: #ffffff;
-      letter-spacing: 0.06em;
-    }
-
-    nav {
-      display: flex;
-      gap: 0.75rem;
-      font-size: 0.9rem;
-    }
-
-    nav a {
-      color: #e3f2fd;
-      text-decoration: none;
-      padding: 0.35rem 0.75rem;
-      border-radius: 999px;
-      border: 1px solid rgba(255,255,255,0.12);
-      background: rgba(15,23,42,0.8);
-      transition: 0.2s;
-    }
-
-    nav a:hover {
-      background: rgba(30,136,229,0.9);
-      border-color: transparent;
-      color: #fff;
-    }
-
-    main {
-      padding: 2.5rem 1.5rem 3rem;
-      max-width: 1100px;
-      margin: 0 auto;
-    }
-
-    section {
-      margin-bottom: 3rem;
-    }
-
-    .hero {
-      display: grid;
-      grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
-      gap: 2rem;
-      align-items: center;
-    }
-
-    .hero-left {
-      padding: 1.5rem;
-      border-radius: var(--radius);
-      background: linear-gradient(135deg, rgba(15,23,42,0.9), rgba(9,12,20,0.95));
-      border: var(--border-soft);
-      box-shadow: 0 18px 40px rgba(0,0,0,0.6);
-    }
-
-    .hero-title {
-      font-family: "Lobster Two", system-ui, sans-serif;
-      font-size: clamp(2.4rem, 4vw, 3rem);
-      margin-bottom: 0.5rem;
-    }
-
-    .hero-sub {
-      color: #cfd8dc;
-      font-size: 0.98rem;
-      margin-bottom: 1.25rem;
-    }
-
-    .hero-tags {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.5rem;
-      margin-bottom: 0.75rem;
-    }
-
-    .tag {
-      font-size: 0.8rem;
-      padding: 0.25rem 0.6rem;
-      border-radius: 999px;
-      border: 1px solid rgba(255,255,255,0.18);
-      background: rgba(15,23,42,0.9);
-      color: #e3f2fd;
-    }
-
-    .hero-right {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .hero-ball {
-      width: 180px;
-      height: 180px;
-      border-radius: 50%;
-      background:
-        radial-gradient(circle at 30% 30%, #ffffff, #cfd8dc),
-        radial-gradient(circle at 70% 70%, #b0bec5, #90a4ae);
-      box-shadow: 0 18px 40px rgba(0,0,0,0.7);
-      border: 4px solid #263238;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .hero-ball::before,
-    .hero-ball::after {
-      content: "";
-      position: absolute;
-      border-radius: 50%;
-      border: 2px solid #263238;
-    }
-
-    .hero-ball::before {
-      inset: 18%;
-    }
-
-    .hero-ball::after {
-      inset: 34%;
-    }
-
-    .section-title {
-      font-family: "Lobster Two", system-ui, sans-serif;
-      font-size: 1.8rem;
-      margin-bottom: 0.4rem;
-    }
-
-    .section-sub {
-      font-size: 0.95rem;
-      color: #cfd8dc;
-      margin-bottom: 1.25rem;
-    }
-
-    .card {
-      background: var(--card-bg);
-      border-radius: var(--radius);
-      border: var(--border-soft);
-      padding: 1rem 1.1rem;
-      box-shadow: 0 14px 30px rgba(0,0,0,0.55);
-    }
-
-    .teams-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
-      gap: 1rem;
-    }
-
-    .team-name {
-      font-weight: 600;
-      margin-bottom: 0.25rem;
-    }
-
-    .team-meta {
-      font-size: 0.85rem;
-      color: #b0bec5;
-    }
-
-    .link-btn {
-      display: inline-block;
-      margin-top: 0.5rem;
-      font-size: 0.8rem;
-      padding: 0.3rem 0.7rem;
-      border-radius: 999px;
-      border: 1px solid rgba(255,255,255,0.2);
-      text-decoration: none;
-      color: #e3f2fd;
-      background: rgba(15,23,42,0.9);
-      transition: 0.2s;
-    }
-
-    .link-btn:hover {
-      background: rgba(30,136,229,0.9);
-      border-color: transparent;
-      color: #fff;
-    }
-
-    .two-col {
-      display: grid;
-      grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
-      gap: 1.25rem;
-    }
-
-    .badge {
-      display: inline-block;
-      padding: 0.25rem 0.6rem;
-      border-radius: 999px;
-      font-size: 0.8rem;
-      background: rgba(30,136,229,0.15);
-      color: #bbdefb;
-      border: 1px solid rgba(30,136,229,0.4);
-      margin-bottom: 0.4rem;
-    }
-
-    .list {
-      list-style: none;
-      font-size: 0.9rem;
-      color: #e0e0e0;
-    }
-
-    .list li {
-      margin-bottom: 0.25rem;
-    }
-
-    .list span {
-      color: #90caf9;
-    }
-
-    .brackets-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
-      gap: 1rem;
-    }
-
-    .bracket-title {
-      font-weight: 600;
-      margin-bottom: 0.4rem;
-      color: #bbdefb;
-    }
-
-    .bracket-list {
-      list-style: none;
-      font-size: 0.9rem;
-      color: #e0e0e0;
-    }
-
-    .bracket-list li {
-      margin-bottom: 0.25rem;
-    }
-
-    .coming-soon {
-      text-align: center;
-      padding: 2rem 1rem;
-      border-radius: var(--radius);
-      background: linear-gradient(135deg, rgba(25,118,210,0.18), rgba(13,71,161,0.85));
-      border: 1px solid rgba(187,222,251,0.6);
-      color: #e3f2fd;
-      box-shadow: 0 18px 40px rgba(0,0,0,0.6);
-    }
-
-    .coming-soon h3 {
-      font-family: "Lobster Two", system-ui, sans-serif;
-      font-size: 1.6rem;
-      margin-bottom: 0.4rem;
-    }
-
-    .coming-soon p {
-      font-size: 0.95rem;
-    }
-
-    footer {
-      padding: 1rem 1.5rem 1.5rem;
-      text-align: center;
-      font-size: 0.85rem;
-      color: #b0bec5;
-      border-top: 1px solid rgba(255,255,255,0.08);
-      background: #05070b;
-    }
-
-    @media (max-width: 800px) {
-      .hero {
-        grid-template-columns: 1fr;
-      }
-      .hero-right {
-        order: -1;
-      }
-      .two-col {
-        grid-template-columns: 1fr;
-      }
-      header {
-        flex-wrap: wrap;
-        gap: 0.5rem;
-      }
-    }
-  </style>
+    nav { justify-content: flex-start; }
+  }
+</style>
 </head>
+
 <body>
 
 <header>
-  <div class="logo">
-    <div class="logo-ball"></div>
-    <div class="logo-text">TurfVision</div>
-  </div>
+  <div class="logo">TurfVision</div>
   <nav>
     <a href="#home">Home</a>
     <a href="#teams">Teams</a>
-    <a href="#ru-info">RU Info</a>
-    <a href="#jeffcup">Jeff Cup 2026</a>
+    <a href="#ru">RU Info</a>
+    <a href="#jeffcup">Jeff Cup</a>
     <a href="#asist">ASIST</a>
+    <a href="#history">History</a>
   </nav>
 </header>
 
 <main>
 
-  <!-- HOME -->
-  <section id="home" class="hero">
-    <div class="hero-left">
-      <h1 class="hero-title">TurfVision</h1>
-      <p class="hero-sub">
-        A clean, focused hub for your 2015 girls Premier season — tracking Jeff Cup, ASIST, and key opponents.
-      </p>
-      <div class="hero-tags">
-        <span class="tag">2015 Girls</span>
-        <span class="tag">Premier</span>
-        <span class="tag">Rankings &amp; Opponents</span>
-        <span class="tag">Jeff Cup 2026</span>
-      </div>
-      <p class="hero-sub">
-        Scroll down for team details, RU’s ranking and opponents, full Jeff Cup Premier brackets, and an ASIST
-        “Coming Soon” section ready for when schedules drop.
-      </p>
-    </div>
-    <div class="hero-right">
-      <div class="hero-ball"></div>
+  <!-- HOME / QUICK LINKS -->
+  <section id="home">
+    <h2>Quick Links</h2>
+    <p class="tagline">
+      2015 Girls Premier hub — brackets, rankings, opponents, and notes in one place.
+    </p>
+    <div class="quick-links">
+      <button class="pill-btn" onclick="location.href='#jeffcup'">
+        <span>Jefferson Cup 2026</span>
+        <small>Premier Division brackets &amp; standings</small>
+      </button>
+      <button class="pill-btn" onclick="location.href='#asist'">
+        <span>ASIST Tournament</span>
+        <small>Coming Soon — brackets &amp; schedule</small>
+      </button>
+      <button class="pill-btn" onclick="location.href='#history'">
+        <span>Match History</span>
+        <small>Recent and key fixtures</small>
+      </button>
+      <button class="pill-btn" onclick="location.href='#ru'">
+        <span>Scouting Notes</span>
+        <small>RU rankings &amp; opponents</small>
+      </button>
     </div>
   </section>
 
   <!-- TEAMS -->
   <section id="teams">
-    <h2 class="section-title">Teams</h2>
-    <p class="section-sub">
-      Core 2015 girls teams you’re tracking this season.
-    </p>
+    <h2>Teams</h2>
     <div class="teams-grid">
-      <div class="card">
-        <div class="team-name">VYS Phoenix Pre ECNL 15G</div>
-        <div class="team-meta">Virginia • High‑level regional competition</div>
+      <div class="team-card">
+        <div class="team-logo"></div>
+        <div>
+          <div class="team-name">VYS Phoenix Pre ECNL 15G</div>
+          <div class="team-meta">Virginia • High‑level regional competition</div>
+        </div>
       </div>
-      <div class="card">
-        <div class="team-name">2015 VA Reign Elite Pre ECNL</div>
-        <div class="team-meta">Virginia • Strong technical group, aggressive press</div>
+      <div class="team-card">
+        <div class="team-logo"></div>
+        <div>
+          <div class="team-name">2015 VA Reign Elite Pre ECNL</div>
+          <div class="team-meta">Virginia • Strong technical group, aggressive press</div>
+        </div>
       </div>
-      <div class="card">
-        <div class="team-name">RU Red Pre ECNL 2</div>
-        <div class="team-meta">Virginia • Your core RU side, building through 2026</div>
+      <div class="team-card">
+        <div class="team-logo"></div>
+        <div>
+          <div class="team-name">RU Red Pre ECNL 2</div>
+          <div class="team-meta">Virginia • Core RU side, building through 2026</div>
+        </div>
       </div>
-      <div class="card">
-        <div class="team-name">Great Falls Reston Pre ECNL</div>
-        <div class="team-meta">Virginia • Possession‑oriented, good in tight spaces</div>
+      <div class="team-card">
+        <div class="team-logo"></div>
+        <div>
+          <div class="team-name">Great Falls Reston Pre ECNL</div>
+          <div class="team-meta">Virginia • Possession‑oriented, good in tight spaces</div>
+        </div>
       </div>
-      <div class="card">
-        <div class="team-name">BRYC Elite Academy G15 Pre ECNL</div>
-        <div class="team-meta">Virginia • Physical, organized, strong defensive block</div>
+      <div class="team-card">
+        <div class="team-logo"></div>
+        <div>
+          <div class="team-name">BRYC Elite Academy G15 Pre ECNL</div>
+          <div class="team-meta">Virginia • Physical, organized, strong defensive block</div>
+        </div>
       </div>
     </div>
   </section>
 
   <!-- RU INFO -->
-  <section id="ru-info">
-    <h2 class="section-title">RU Orange Pre ECNL 2 G15 — Info</h2>
-    <p class="section-sub">
-      Snapshot of RU’s current standing and key opponents for the 2026 cycle.
-    </p>
-    <div class="two-col">
-      <div class="card">
-        <span class="badge">Rankings (as of Fall)</span>
-        <ul class="list">
-          <li><span>State:</span> #38 in Virginia</li>
-          <li><span>National:</span> #649</li>
-        </ul>
-        <br />
-        <span class="badge">Core Identity</span>
-        <ul class="list">
-          <li>High‑work‑rate group with growing chemistry.</li>
-          <li>Developing build‑out from the back and wide play.</li>
-          <li>Key focus: decision‑making in the final third.</li>
-        </ul>
-      </div>
-      <div class="card">
-        <span class="badge">Teams You Play / Track</span>
-        <ul class="list">
-          <li>VYS Phoenix Pre ECNL 15G</li>
-          <li>2015 VA Reign Elite Pre ECNL</li>
-          <li>RU Red Pre ECNL 2</li>
-          <li>Great Falls Reston Pre ECNL</li>
-          <li>BRYC Elite Academy G15 Pre ECNL</li>
-        </ul>
-        <br />
-        <span class="badge">Jeff Cup 2026 Opponents (Bracket D)</span>
-        <ul class="list">
-          <li>Match Fit Surf Pre‑ECNL II G15 (NJ)</li>
-          <li>Old Line FC Girls 15 Black (MD)</li>
-          <li>RU Orange Pre ECNL 2 G15 (VA)</li>
-        </ul>
-      </div>
-    </div>
+  <section id="ru">
+    <h2>RU Orange Pre ECNL 2 — Info</h2>
+
+    <span class="badge">Rankings (Fall)</span>
+    <p>State: <strong>#38 in Virginia</strong><br>National: <strong>#649</strong></p>
+
+    <span class="badge">Teams You Play / Track</span>
+    <ul>
+      <li>VYS Phoenix Pre ECNL 15G</li>
+      <li>2015 VA Reign Elite Pre ECNL</li>
+      <li>RU Red Pre ECNL 2</li>
+      <li>Great Falls Reston Pre ECNL</li>
+      <li>BRYC Elite Academy G15 Pre ECNL</li>
+    </ul>
+
+    <span class="badge">Jeff Cup 2026 Opponents (Bracket D)</span>
+    <ul>
+      <li>Match Fit Surf Pre‑ECNL II G15 (NJ)</li>
+      <li>Old Line FC Girls 15 Black (MD)</li>
+      <li>RU Orange Pre ECNL 2 G15 (VA)</li>
+    </ul>
+
+    <span class="badge">Scouting Notes (Short)</span>
+    <ul>
+      <li>Stay compact defensively vs. Match Fit and Old Line.</li>
+      <li>Use width and quick switches to create 1v1s wide.</li>
+      <li>On set pieces: track marks tightly, attack first ball hard.</li>
+    </ul>
   </section>
 
-  <!-- JEFF CUP 2026 PREMIER -->
+  <!-- JEFF CUP -->
   <section id="jeffcup">
-    <h2 class="section-title">Jefferson Cup 2026 — Premier Division</h2>
-    <p class="section-sub">
-      Premier brackets for the 2015 girls age group. Standings start at 0 and can be updated once results are in.
-    </p>
+    <h2>Jeff Cup 2026 — Premier Division</h2>
+    <p class="tagline">All standings start at 0 and can be updated as results come in.</p>
 
-    <div class="brackets-grid">
+    <!-- BRACKET A -->
+    <h3>Bracket A</h3>
+    <ul>
+      <li>Delaware FC 15G Pre ECNL Black (DE)</li>
+      <li>Harrison Wolfpack 2015 (NJ)</li>
+      <li>SEVERNA PARK 15G - GREEN (MD)</li>
+    </ul>
+    <table data-bracket="A">
+      <tr><th>Team</th><th>GP</th><th>W</th><th>L</th><th>D</th><th>GF</th><th>GA</th><th>GD</th><th>PTS</th></tr>
+      <tr><td>Delaware FC</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
+      <tr><td>Harrison Wolfpack</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
+      <tr><td>Severna Park</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
+    </table>
 
-      <div class="card">
-        <div class="bracket-title">Bracket A</div>
-        <ul class="bracket-list">
-          <li>Delaware FC 15G Pre ECNL Black (DE)</li>
-          <li>Harrison Wolfpack 2015 (NJ)</li>
-          <li>SEVERNA PARK 15G - GREEN (MD)</li>
-        </ul>
-      </div>
+    <!-- BRACKET B -->
+    <h3>Bracket B</h3>
+    <ul>
+      <li>Charlotte SA 15G Charlotte Elite 3 (NC)</li>
+      <li>Lehigh Valley United 2015 Girls Black (PAE)</li>
+      <li>Scorpions SC 2015 State Select Girls (MA)</li>
+    </ul>
+    <table data-bracket="B">
+      <tr><th>Team</th><th>GP</th><th>W</th><th>L</th><th>D</th><th>GF</th><th>GA</th><th>GD</th><th>PTS</th></tr>
+      <tr><td>Charlotte SA</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
+      <tr><td>Lehigh Valley United</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
+      <tr><td>Scorpions SC</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
+    </table>
 
-      <div class="card">
-        <div class="bracket-title">Bracket B</div>
-        <ul class="bracket-list">
-          <li>Charlotte SA 15G Charlotte Elite 3 (NC)</li>
-          <li>Lehigh Valley United 2015 Girls Black (PAE)</li>
-          <li>Scorpions SC 2015 State Select Girls (MA)</li>
-        </ul>
-      </div>
+    <!-- BRACKET C -->
+    <h3>Bracket C</h3>
+    <ul>
+      <li>Bethesda E 2 2015 (MD)</li>
+      <li>BRYC Academy G15 Pre‑ECNL (VA)</li>
+      <li>NCFC Youth 15G Gold North (NC)</li>
+    </ul>
+    <table data-bracket="C">
+      <tr><th>Team</th><th>GP</th><th>W</th><th>L</th><th>D</th><th>GF</th><th>GA</th><th>GD</th><th>PTS</th></tr>
+      <tr><td>Bethesda</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
+      <tr><td>BRYC Academy</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
+      <tr><td>NCFC Youth</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
+    </table>
 
-      <div class="card">
-        <div class="bracket-title">Bracket C</div>
-        <ul class="bracket-list">
-          <li>Bethesda E 2 2015 (MD)</li>
-          <li>BRYC Academy G15 Pre-ECNL (VA)</li>
-          <li>NCFC Youth 15G Gold North (NC)</li>
-        </ul>
-      </div>
-
-      <div class="card">
-        <div class="bracket-title">Bracket D</div>
-        <ul class="bracket-list">
-          <li>Match Fit Surf Pre-ECNL II G15 (NJ)</li>
-          <li>Old Line FC Girls 15 Black (MD)</li>
-          <li>RU ORANGE PRE ECNL 2 G15 (VA)</li>
-        </ul>
-      </div>
-
-    </div>
+    <!-- BRACKET D -->
+    <h3>Bracket D</h3>
+    <ul>
+      <li>Match Fit Surf Pre‑ECNL II G15 (NJ)</li>
+      <li>Old Line FC Girls 15 Black (MD)</li>
+      <li>RU Orange Pre ECNL 2 G15 (VA)</li>
+    </ul>
+    <table data-bracket="D">
+      <tr><th>Team</th><th>GP</th><th>W</th><th>L</th><th>D</th><th>GF</th><th>GA</th><th>GD</th><th>PTS</th></tr>
+      <tr><td>Match Fit Surf</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
+      <tr><td>Old Line FC</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
+      <tr><td>RU Orange</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
+    </table>
   </section>
 
   <!-- ASIST -->
   <section id="asist">
-    <h2 class="section-title">ASIST Tournament</h2>
-    <p class="section-sub">
-      ASIST details will be added once brackets and schedules are released.
-    </p>
-    <div class="coming-soon">
-      <h3>ASIST 2026 — Coming Soon</h3>
-      <p>
-        This space is reserved for ASIST brackets, opponents, and match notes. Once schedules drop, you can plug in
-        groups, kickoff times, and scouting notes for each opponent.
-      </p>
+    <h2>ASIST Tournament</h2>
+    <p class="tagline">Once brackets and schedules drop, this section becomes your second tournament hub.</p>
+    <div class="coming">ASIST 2026 — Coming Soon</div>
+  </section>
+
+  <!-- MATCH HISTORY -->
+  <section id="history">
+    <h2>Match History</h2>
+    <p class="tagline">You can expand this with real scores once games are played.</p>
+
+    <div class="teams-grid">
+      <div class="team-card">
+        <div class="team-logo"></div>
+        <div>
+          <div class="team-name">RU Orange vs. VYS Phoenix</div>
+          <div class="team-meta">Recent friendly • Score: TBD • Notes: High tempo, good test.</div>
+        </div>
+      </div>
+      <div class="team-card">
+        <div class="team-logo"></div>
+        <div>
+          <div class="team-name">RU Orange vs. BRYC Elite</div>
+          <div class="team-meta">League match • Score: TBD • Notes: Physical game, focus on second balls.</div>
+        </div>
+      </div>
+      <div class="team-card">
+        <div class="team-logo"></div>
+        <div>
+          <div class="team-name">RU Orange vs. Great Falls Reston</div>
+          <div class="team-meta">Scrimmage • Score: TBD • Notes: Good possession phases, work on finishing.</div>
+        </div>
+      </div>
     </div>
   </section>
 
 </main>
 
-<footer>
-  &copy; <span id="year"></span> TurfVision. Focused on 2015 girls Premier.
-</footer>
-
 <script>
-  document.getElementById("year").textContent = new Date().getFullYear();
+  // Hook for future auto-updating standings:
+  // When you have a backend or JSON, you can call updateStandings('A', rows) etc.
+  function updateStandings(bracketId, rows) {
+    const table = document.querySelector(`table[data-bracket="${bracketId}"]`);
+    if (!table) return;
+    // rows = [{team, gp, w, l, d, gf, ga, gd, pts}, ...]
+    // You can replace table rows here later.
+  }
 </script>
 
 </body>
