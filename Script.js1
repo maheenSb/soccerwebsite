@@ -1,434 +1,854 @@
+src/
+  pages/
+    index.html
+    teams.html
+    ru.html
+    jeffcup.html
+    asist.html
+    history.html
+  styles/
+    global.css
+    home.css
+    neon.css
+  images/
+    logo.png
+    stadium.jpg
+:root {
+  --bg-dark: #05060a;
+  --text-main: #f5f7ff;
+  --nav-bg: rgba(0, 0, 0, 0.85);
+  --nav-border: rgba(255, 255, 255, 0.18);
+  --card-bg: rgba(10, 12, 20, 0.9);
+  --card-border: rgba(255, 255, 255, 0.16);
+  --shadow-soft: 0 18px 40px rgba(0, 0, 0, 0.7);
+  --radius-lg: 16px;
+  --radius-md: 12px;
+  --transition-fast: 0.18s ease-out;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html, body {
+  height: 100%;
+}
+
+body {
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  color: var(--text-main);
+  background: var(--bg-dark);
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+/* HEADER / NAV */
+
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  background: var(--nav-bg);
+  border-bottom: 1px solid var(--nav-border);
+  backdrop-filter: blur(10px);
+}
+
+.header-inner {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 10px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.logo-wrap {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.logo-img {
+  height: 80px; /* large logo */
+  width: auto;
+}
+
+.logo-text {
+  font-size: 20px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  opacity: 0.85;
+}
+
+.main-nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: flex-end;
+}
+
+.nav-link {
+  padding: 6px 12px;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  font-size: 14px;
+  background: rgba(10, 10, 18, 0.7);
+  transition: background var(--transition-fast), transform var(--transition-fast), box-shadow var(--transition-fast);
+}
+
+.nav-link:hover {
+  background: rgba(255, 255, 255, 0.12);
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.25);
+}
+
+.nav-link:active {
+  transform: scale(0.96);
+}
+
+/* LAYOUT */
+
+.page-shell {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.page-main {
+  flex: 1;
+}
+
+.page-inner {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 24px 16px 40px;
+}
+
+.card {
+  background: var(--card-bg);
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--card-border);
+  box-shadow: var(--shadow-soft);
+  padding: 20px 18px;
+  margin-bottom: 22px;
+}
+
+.card-title {
+  font-size: 26px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  margin-bottom: 10px;
+}
+
+.card-subtitle {
+  font-size: 14px;
+  opacity: 0.85;
+  margin-bottom: 14px;
+}
+
+.grid {
+  display: grid;
+  gap: 12px;
+}
+
+.grid-2 {
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+}
+
+.badge {
+  display: inline-block;
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  opacity: 0.9;
+  margin-bottom: 8px;
+}
+
+.pill-button {
+  width: 100%;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  background: rgba(15, 16, 30, 0.9);
+  padding: 12px 14px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 14px;
+  cursor: pointer;
+  color: var(--text-main);
+  transition: background var(--transition-fast), transform var(--transition-fast), box-shadow var(--transition-fast);
+}
+
+.pill-button span {
+  font-weight: 600;
+}
+
+.pill-button small {
+  font-size: 12px;
+  opacity: 0.8;
+}
+
+.pill-button:hover {
+  background: rgba(255, 255, 255, 0.12);
+  box-shadow: 0 0 12px rgba(255, 255, 255, 0.25);
+}
+
+.pill-button:active {
+  transform: scale(0.97);
+}
+
+/* TABLES */
+
+.table-wrap {
+  overflow-x: auto;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+  margin-top: 10px;
+}
+
+.table th,
+.table td {
+  padding: 6px 8px;
+  text-align: center;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+}
+
+.table th {
+  background: rgba(255, 255, 255, 0.12);
+  font-weight: 600;
+}
+
+/* FOOTER */
+
+.site-footer {
+  padding: 14px 16px 20px;
+  font-size: 12px;
+  text-align: center;
+  opacity: 0.7;
+}
+
+/* ANIMATIONS */
+
+.fade-up {
+  opacity: 0;
+  transform: translateY(10px);
+  animation: fadeUp 0.4s ease-out forwards;
+}
+
+.fade-up:nth-of-type(1) { animation-delay: 0.05s; }
+.fade-up:nth-of-type(2) { animation-delay: 0.1s; }
+.fade-up:nth-of-type(3) { animation-delay: 0.15s; }
+.fade-up:nth-of-type(4) { animation-delay: 0.2s; }
+
+@keyframes fadeUp {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* RESPONSIVE */
+
+@media (max-width: 720px) {
+  .header-inner {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .logo-img {
+    height: 70px;
+  }
+
+  .main-nav {
+    justify-content: flex-start;
+  }
+}
+/* Home + Jeff Cup stadium background */
+
+.body-stadium {
+  background:
+    linear-gradient(to bottom, rgba(0, 0, 0, 0.65), rgba(0, 0, 0, 0.9)),
+    url("../images/stadium.jpg") center top no-repeat;
+  background-size: contain;
+  background-color: #020308;
+}
+
+.hero-shell {
+  min-height: 70vh;
+  display: flex;
+  align-items: center;
+}
+
+.hero-card {
+  max-width: 520px;
+  background: rgba(5, 6, 12, 0.9);
+  border-radius: 18px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.85);
+  padding: 22px 20px 20px;
+}
+
+.hero-title {
+  font-size: 30px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  margin-bottom: 8px;
+}
+
+.hero-subtitle {
+  font-size: 14px;
+  opacity: 0.9;
+  margin-bottom: 18px;
+}
+/* Neon gradients */
+
+.body-neon-green {
+  background: radial-gradient(circle at top left, #00ff88 0, #02030a 45%, #000000 100%);
+}
+
+.body-neon-blue {
+  background: radial-gradient(circle at top, #00c3ff 0, #02041a 45%, #000000 100%);
+}
+
+.body-neon-yellow {
+  background: radial-gradient(circle at top, #ffe45e 0, #1a1302 45%, #000000 100%);
+}
+
+.body-neon-purple {
+  background: radial-gradient(circle at top, #c77dff 0, #12021a 45%, #000000 100%);
+}
+
+/* Neon cards */
+
+.card-neon {
+  background: rgba(3, 4, 12, 0.9);
+  border-radius: 18px;
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  box-shadow: 0 0 18px rgba(255, 255, 255, 0.18);
+}
+
+/* RU electric blue neon */
+
+.neon-blue-text {
+  color: #4fd3ff;
+  text-shadow: 0 0 8px rgba(79, 211, 255, 0.9), 0 0 18px rgba(79, 211, 255, 0.7);
+}
+
+.neon-blue-badge {
+  border-color: rgba(79, 211, 255, 0.9);
+  color: #b9ecff;
+  text-shadow: 0 0 6px rgba(79, 211, 255, 0.8);
+}
+
+/* Other neon accents */
+
+.neon-green-border {
+  box-shadow: 0 0 14px rgba(0, 255, 136, 0.7);
+  border-color: rgba(0, 255, 136, 0.9);
+}
+
+.neon-yellow-border {
+  box-shadow: 0 0 14px rgba(255, 228, 94, 0.7);
+  border-color: rgba(255, 228, 94, 0.9);
+}
+
+.neon-purple-border {
+  box-shadow: 0 0 14px rgba(199, 125, 255, 0.7);
+  border-color: rgba(199, 125, 255, 0.9);
+}
+<header class="site-header">
+  <div class="header-inner">
+    <div class="logo-wrap">
+      <img src="../images/logo.png" alt="TurfVision logo" class="logo-img">
+    </div>
+    <nav class="main-nav">
+      <a href="index.html" class="nav-link">Home</a>
+      <a href="teams.html" class="nav-link">Teams</a>
+      <a href="ru.html" class="nav-link">RU Info</a>
+      <a href="jeffcup.html" class="nav-link">Jeff Cup</a>
+      <a href="asist.html" class="nav-link">ASIST</a>
+      <a href="history.html" class="nav-link">History</a>
+    </nav>
+  </div>
+</header>
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<title>TurfVision</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<!-- Font -->
-<link href="https://fonts.googleapis.com/css2?family=Lobster+Two:wght@700&display=swap" rel="stylesheet">
-
-<style>
-  :root {
-    --glass: rgba(0,0,0,0.68);
-    --accent-soft: rgba(255,235,59,0.18);
-  }
-
-  * { box-sizing: border-box; }
-
-  body {
-    margin: 0;
-    font-family: Arial, sans-serif;
-    background: url('penalty-bg.png') center/cover no-repeat fixed;
-    color: white;
-  }
-
-  header {
-    background: rgba(0,0,0,0.78);
-    padding: 12px 18px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    position: sticky;
-    top: 0;
-    backdrop-filter: blur(6px);
-    z-index: 10;
-  }
-
-  .logo {
-    font-family: 'Lobster Two', cursive;
-    font-size: 30px;
-    letter-spacing: 2px;
-  }
-
-  nav {
-    display: flex;
-    gap: 10px;
-    flex-wrap: wrap;
-  }
-
-  nav a {
-    color: white;
-    text-decoration: none;
-    font-size: 14px;
-    padding: 6px 10px;
-    border-radius: 999px;
-    border: 1px solid rgba(255,255,255,0.25);
-    background: rgba(0,0,0,0.4);
-    transition: background 0.2s, transform 0.1s;
-  }
-
-  nav a:active { transform: scale(0.96); }
-  nav a:hover { background: rgba(255,255,255,0.15); }
-
-  main { padding-bottom: 40px; }
-
-  section {
-    padding: 28px 16px;
-    background: var(--glass);
-    margin: 22px auto;
-    width: 92%;
-    border-radius: 14px;
-    border: 1px solid rgba(255,255,255,0.18);
-    box-shadow: 0 18px 40px rgba(0,0,0,0.7);
-    animation: fadeInUp 0.5s ease forwards;
-    opacity: 0;
-  }
-
-  section:nth-of-type(1) { animation-delay: 0.05s; }
-  section:nth-of-type(2) { animation-delay: 0.1s; }
-  section:nth-of-type(3) { animation-delay: 0.15s; }
-  section:nth-of-type(4) { animation-delay: 0.2s; }
-  section:nth-of-type(5) { animation-delay: 0.25s; }
-  section:nth-of-type(6) { animation-delay: 0.3s; }
-
-  @keyframes fadeInUp {
-    from { opacity: 0; transform: translateY(12px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
-
-  h2 {
-    font-family: 'Lobster Two', cursive;
-    font-size: 30px;
-    margin-bottom: 8px;
-  }
-
-  h3 {
-    margin-top: 18px;
-    margin-bottom: 6px;
-    font-size: 18px;
-  }
-
-  p { margin: 6px 0; font-size: 14px; }
-
-  .tagline {
-    font-size: 14px;
-    opacity: 0.9;
-    margin-bottom: 14px;
-  }
-
-  .quick-links {
-    display: grid;
-    gap: 10px;
-  }
-
-  .pill-btn {
-    background: rgba(255,255,255,0.12);
-    padding: 12px;
-    border-radius: 999px;
-    font-size: 14px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    border: 1px solid rgba(255,255,255,0.2);
-    cursor: pointer;
-    transition: background 0.2s, transform 0.1s;
-  }
-
-  .pill-btn span { font-weight: 500; }
-  .pill-btn small { opacity: 0.8; font-size: 12px; }
-
-  .pill-btn:active { transform: scale(0.97); }
-  .pill-btn:hover { background: rgba(255,255,255,0.2); }
-
-  .teams-grid { display: grid; gap: 10px; }
-
-  .team-card {
-    background: rgba(255,255,255,0.12);
-    padding: 10px;
-    border-radius: 10px;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-  }
-
-  .team-logo {
-    width: 32px;
-    height: 32px;
-    border-radius: 50%;
-    background: radial-gradient(circle at 30% 30%, #ffffff, #cfd8dc);
-    border: 2px solid rgba(0,0,0,0.6);
-  }
-
-  .team-name { font-size: 14px; font-weight: 600; }
-  .team-meta { font-size: 12px; opacity: 0.8; }
-
-  ul { padding-left: 18px; font-size: 14px; }
-
-  table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 10px;
-    font-size: 13px;
-  }
-
-  table, th, td {
-    border: 1px solid rgba(255,255,255,0.3);
-  }
-
-  th, td {
-    padding: 5px;
-    text-align: center;
-  }
-
-  th { background: rgba(255,255,255,0.12); }
-
-  .coming {
-    text-align: center;
-    padding: 22px;
-    background: var(--accent-soft);
-    border-radius: 10px;
-    font-size: 20px;
-    font-family: 'Lobster Two', cursive;
-    border: 1px solid rgba(255,255,255,0.4);
-  }
-
-  .badge {
-    display: inline-block;
-    padding: 3px 8px;
-    border-radius: 999px;
-    background: rgba(255,255,255,0.15);
-    font-size: 11px;
-    margin-bottom: 6px;
-  }
-
-  @media (max-width: 600px) {
-    header {
-      flex-direction: column;
-      align-items: flex-start;
-      gap: 6px;
-    }
-    nav { justify-content: flex-start; }
-  }
-</style>
+  <meta charset="UTF-8">
+  <title>TurfVision – Home</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="../styles/global.css">
+  <link rel="stylesheet" href="../styles/home.css">
 </head>
+<body class="body-stadium">
+  <div class="page-shell">
+    <!-- HEADER -->
+    <header class="site-header">
+      <div class="header-inner">
+        <div class="logo-wrap">
+          <img src="../images/logo.png" alt="TurfVision logo" class="logo-img">
+        </div>
+        <nav class="main-nav">
+          <a href="index.html" class="nav-link">Home</a>
+          <a href="teams.html" class="nav-link">Teams</a>
+          <a href="ru.html" class="nav-link">RU Info</a>
+          <a href="jeffcup.html" class="nav-link">Jeff Cup</a>
+          <a href="asist.html" class="nav-link">ASIST</a>
+          <a href="history.html" class="nav-link">History</a>
+        </nav>
+      </div>
+    </header>
 
-<body>
+    <main class="page-main">
+      <div class="page-inner hero-shell">
+        <div class="hero-card fade-up">
+          <h1 class="hero-title">TurfVision</h1>
+          <p class="hero-subtitle">
+            2015 Girls Premier hub for rankings, tournaments, opponents, and scouting notes.
+          </p>
 
-<header>
-  <div class="logo">TurfVision</div>
-  <nav>
-    <a href="#home">Home</a>
-    <a href="#teams">Teams</a>
-    <a href="#ru">RU Info</a>
-    <a href="#jeffcup">Jeff Cup</a>
-    <a href="#asist">ASIST</a>
-    <a href="#history">History</a>
-  </nav>
-</header>
-
-<main>
-
-  <!-- HOME / QUICK LINKS -->
-  <section id="home">
-    <h2>Quick Links</h2>
-    <p class="tagline">
-      2015 Girls Premier hub — brackets, rankings, opponents, and notes in one place.
-    </p>
-    <div class="quick-links">
-      <button class="pill-btn" onclick="location.href='#jeffcup'">
-        <span>Jefferson Cup 2026</span>
-        <small>Premier Division brackets &amp; standings</small>
-      </button>
-      <button class="pill-btn" onclick="location.href='#asist'">
-        <span>ASIST Tournament</span>
-        <small>Coming Soon — brackets &amp; schedule</small>
-      </button>
-      <button class="pill-btn" onclick="location.href='#history'">
-        <span>Match History</span>
-        <small>Recent and key fixtures</small>
-      </button>
-      <button class="pill-btn" onclick="location.href='#ru'">
-        <span>Scouting Notes</span>
-        <small>RU rankings &amp; opponents</small>
-      </button>
-    </div>
-  </section>
-
-  <!-- TEAMS -->
-  <section id="teams">
-    <h2>Teams</h2>
-    <div class="teams-grid">
-      <div class="team-card">
-        <div class="team-logo"></div>
-        <div>
-          <div class="team-name">VYS Phoenix Pre ECNL 15G</div>
-          <div class="team-meta">Virginia • High‑level regional competition</div>
+          <div class="grid">
+            <button class="pill-button" onclick="location.href='jeffcup.html'">
+              <span>Jefferson Cup 2026</span>
+              <small>Premier Division brackets &amp; standings</small>
+            </button>
+            <button class="pill-button" onclick="location.href='asist.html'">
+              <span>ASIST Tournament</span>
+              <small>Coming soon – brackets &amp; schedule</small>
+            </button>
+            <button class="pill-button" onclick="location.href='history.html'">
+              <span>Match History</span>
+              <small>Recent and key fixtures</small>
+            </button>
+            <button class="pill-button" onclick="location.href='ru.html'">
+              <span>RU Info &amp; Scouting</span>
+              <small>Rankings, opponents, and notes</small>
+            </button>
+          </div>
         </div>
       </div>
-      <div class="team-card">
-        <div class="team-logo"></div>
-        <div>
-          <div class="team-name">2015 VA Reign Elite Pre ECNL</div>
-          <div class="team-meta">Virginia • Strong technical group, aggressive press</div>
+    </main>
+
+    <footer class="site-footer">
+      TurfVision · 2015 Girls · Built for real game days
+    </footer>
+  </div>
+</body>
+</html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>TurfVision – Teams</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="../styles/global.css">
+  <link rel="stylesheet" href="../styles/neon.css">
+</head>
+<body class="body-neon-green">
+  <div class="page-shell">
+    <!-- HEADER -->
+    <header class="site-header">
+      <div class="header-inner">
+        <div class="logo-wrap">
+          <img src="../images/logo.png" alt="TurfVision logo" class="logo-img">
         </div>
+        <nav class="main-nav">
+          <a href="index.html" class="nav-link">Home</a>
+          <a href="teams.html" class="nav-link">Teams</a>
+          <a href="ru.html" class="nav-link">RU Info</a>
+          <a href="jeffcup.html" class="nav-link">Jeff Cup</a>
+          <a href="asist.html" class="nav-link">ASIST</a>
+          <a href="history.html" class="nav-link">History</a>
+        </nav>
       </div>
-      <div class="team-card">
-        <div class="team-logo"></div>
-        <div>
-          <div class="team-name">RU Red Pre ECNL 2</div>
-          <div class="team-meta">Virginia • Core RU side, building through 2026</div>
+    </header>
+
+    <main class="page-main">
+      <div class="page-inner">
+        <section class="card card-neon neon-green-border fade-up">
+          <h1 class="card-title">Teams</h1>
+          <p class="card-subtitle">
+            Core 2015 Girls Pre‑ECNL and elite opponents you track throughout the season.
+          </p>
+
+          <div class="grid grid-2">
+            <article class="card" style="border-radius: var(--radius-md);">
+              <h2 class="card-title" style="font-size:18px;margin-bottom:4px;">VYS Phoenix Pre ECNL 15G</h2>
+              <p class="card-subtitle">Virginia · High‑level regional competition.</p>
+              <p>Strong pressing side with good pace in wide areas.</p>
+            </article>
+
+            <article class="card" style="border-radius: var(--radius-md);">
+              <h2 class="card-title" style="font-size:18px;margin-bottom:4px;">2015 VA Reign Elite Pre ECNL</h2>
+              <p class="card-subtitle">Virginia · Technical, aggressive press.</p>
+              <p>Comfortable on the ball, dangerous when they win it high.</p>
+            </article>
+
+            <article class="card" style="border-radius: var(--radius-md);">
+              <h2 class="card-title" style="font-size:18px;margin-bottom:4px;">RU Red Pre ECNL 2</h2>
+              <p class="card-subtitle">Virginia · Core RU side.</p>
+              <p>Benchmark for internal competition and development.</p>
+            </article>
+
+            <article class="card" style="border-radius: var(--radius-md);">
+              <h2 class="card-title" style="font-size:18px;margin-bottom:4px;">Great Falls Reston Pre ECNL</h2>
+              <p class="card-subtitle">Virginia · Possession‑oriented.</p>
+              <p>Good in tight spaces, patient build‑up from the back.</p>
+            </article>
+
+            <article class="card" style="border-radius: var(--radius-md);">
+              <h2 class="card-title" style="font-size:18px;margin-bottom:4px;">BRYC Elite Academy G15 Pre ECNL</h2>
+              <p class="card-subtitle">Virginia · Physical, organized.</p>
+              <p>Strong defensive block, dangerous on set pieces and counters.</p>
+            </article>
+          </div>
+        </section>
+      </div>
+    </main>
+
+    <footer class="site-footer">
+      TurfVision · Teams overview
+    </footer>
+  </div>
+</body>
+</html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>TurfVision – RU Info</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="../styles/global.css">
+  <link rel="stylesheet" href="../styles/neon.css">
+</head>
+<body class="body-neon-blue">
+  <div class="page-shell">
+    <!-- HEADER -->
+    <header class="site-header">
+      <div class="header-inner">
+        <div class="logo-wrap">
+          <img src="../images/logo.png" alt="TurfVision logo" class="logo-img">
         </div>
+        <nav class="main-nav">
+          <a href="index.html" class="nav-link">Home</a>
+          <a href="teams.html" class="nav-link">Teams</a>
+          <a href="ru.html" class="nav-link">RU Info</a>
+          <a href="jeffcup.html" class="nav-link">Jeff Cup</a>
+          <a href="asist.html" class="nav-link">ASIST</a>
+          <a href="history.html" class="nav-link">History</a>
+        </nav>
       </div>
-      <div class="team-card">
-        <div class="team-logo"></div>
-        <div>
-          <div class="team-name">Great Falls Reston Pre ECNL</div>
-          <div class="team-meta">Virginia • Possession‑oriented, good in tight spaces</div>
+    </header>
+
+    <main class="page-main">
+      <div class="page-inner">
+        <section class="card card-neon fade-up" style="border-radius:20px;">
+          <h1 class="card-title neon-blue-text">RU Orange Pre ECNL 2</h1>
+          <p class="card-subtitle neon-blue-text">
+            Electric‑blue scouting hub for rankings, opponents, and quick notes.
+          </p>
+
+          <div style="margin-bottom:18px;">
+            <span class="badge neon-blue-badge">Rankings (Fall)</span>
+            <p class="neon-blue-text" style="margin-top:6px;">
+              State: <strong>#38 in Virginia</strong><br>
+              National: <strong>#649</strong>
+            </p>
+          </div>
+
+          <div style="margin-bottom:18px;">
+            <span class="badge neon-blue-badge">Teams You Play / Track</span>
+            <ul class="neon-blue-text" style="margin-top:6px; padding-left:18px; font-size:14px;">
+              <li>VYS Phoenix Pre ECNL 15G</li>
+              <li>2015 VA Reign Elite Pre ECNL</li>
+              <li>RU Red Pre ECNL 2</li>
+              <li>Great Falls Reston Pre ECNL</li>
+              <li>BRYC Elite Academy G15 Pre ECNL</li>
+            </ul>
+          </div>
+
+          <div style="margin-bottom:18px;">
+            <span class="badge neon-blue-badge">Jeff Cup 2026 Opponents (Bracket D)</span>
+            <ul class="neon-blue-text" style="margin-top:6px; padding-left:18px; font-size:14px;">
+              <li>Match Fit Surf Pre‑ECNL II G15 (NJ)</li>
+              <li>Old Line FC Girls 15 Black (MD)</li>
+              <li>RU Orange Pre ECNL 2 G15 (VA)</li>
+            </ul>
+          </div>
+
+          <div>
+            <span class="badge neon-blue-badge">Scouting Notes</span>
+            <ul class="neon-blue-text" style="margin-top:6px; padding-left:18px; font-size:14px;">
+              <li>Stay compact defensively vs. Match Fit and Old Line.</li>
+              <li>Use width and quick switches to create 1v1s wide.</li>
+              <li>On set pieces: track marks tightly and attack the first ball hard.</li>
+            </ul>
+          </div>
+        </section>
+      </div>
+    </main>
+
+    <footer class="site-footer">
+      TurfVision · RU Orange scouting view
+    </footer>
+  </div>
+</body>
+</html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>TurfVision – Jeff Cup 2026</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="../styles/global.css">
+  <link rel="stylesheet" href="../styles/home.css">
+</head>
+<body class="body-stadium">
+  <div class="page-shell">
+    <!-- HEADER -->
+    <header class="site-header">
+      <div class="header-inner">
+        <div class="logo-wrap">
+          <img src="../images/logo.png" alt="TurfVision logo" class="logo-img">
         </div>
+        <nav class="main-nav">
+          <a href="index.html" class="nav-link">Home</a>
+          <a href="teams.html" class="nav-link">Teams</a>
+          <a href="ru.html" class="nav-link">RU Info</a>
+          <a href="jeffcup.html" class="nav-link">Jeff Cup</a>
+          <a href="asist.html" class="nav-link">ASIST</a>
+          <a href="history.html" class="nav-link">History</a>
+        </nav>
       </div>
-      <div class="team-card">
-        <div class="team-logo"></div>
-        <div>
-          <div class="team-name">BRYC Elite Academy G15 Pre ECNL</div>
-          <div class="team-meta">Virginia • Physical, organized, strong defensive block</div>
+    </header>
+
+    <main class="page-main">
+      <div class="page-inner">
+        <section class="card fade-up">
+          <h1 class="card-title">Jeff Cup 2026 – Premier Division</h1>
+          <p class="card-subtitle">
+            All standings start at 0 and can be updated as results come in.
+          </p>
+
+          <!-- Bracket A -->
+          <article style="margin-top:16px;">
+            <h2 style="font-size:18px;margin-bottom:4px;">Bracket A</h2>
+            <ul style="padding-left:18px;font-size:14px;margin-bottom:6px;">
+              <li>Delaware FC 15G Pre ECNL Black (DE)</li>
+              <li>Harrison Wolfpack 2015 (NJ)</li>
+              <li>SEVERNA PARK 15G - GREEN (MD)</li>
+            </ul>
+            <div class="table-wrap">
+              <table class="table" data-bracket="A">
+                <tr><th>Team</th><th>GP</th><th>W</th><th>L</th><th>D</th><th>GF</th><th>GA</th><th>GD</th><th>PTS</th></tr>
+                <tr><td>Delaware FC</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
+                <tr><td>Harrison Wolfpack</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
+                <tr><td>Severna Park</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
+              </table>
+            </div>
+          </article>
+
+          <!-- Bracket B -->
+          <article style="margin-top:16px;">
+            <h2 style="font-size:18px;margin-bottom:4px;">Bracket B</h2>
+            <ul style="padding-left:18px;font-size:14px;margin-bottom:6px;">
+              <li>Charlotte SA 15G Charlotte Elite 3 (NC)</li>
+              <li>Lehigh Valley United 2015 Girls Black (PAE)</li>
+              <li>Scorpions SC 2015 State Select Girls (MA)</li>
+            </ul>
+            <div class="table-wrap">
+              <table class="table" data-bracket="B">
+                <tr><th>Team</th><th>GP</th><th>W</th><th>L</th><th>D</th><th>GF</th><th>GA</th><th>GD</th><th>PTS</th></tr>
+                <tr><td>Charlotte SA</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
+                <tr><td>Lehigh Valley United</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
+                <tr><td>Scorpions SC</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
+              </table>
+            </div>
+          </article>
+
+          <!-- Bracket C -->
+          <article style="margin-top:16px;">
+            <h2 style="font-size:18px;margin-bottom:4px;">Bracket C</h2>
+            <ul style="padding-left:18px;font-size:14px;margin-bottom:6px;">
+              <li>Bethesda E 2 2015 (MD)</li>
+              <li>BRYC Academy G15 Pre‑ECNL (VA)</li>
+              <li>NCFC Youth 15G Gold North (NC)</li>
+            </ul>
+            <div class="table-wrap">
+              <table class="table" data-bracket="C">
+                <tr><th>Team</th><th>GP</th><th>W</th><th>L</th><th>D</th><th>GF</th><th>GA</th><th>GD</th><th>PTS</th></tr>
+                <tr><td>Bethesda</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
+                <tr><td>BRYC Academy</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
+                <tr><td>NCFC Youth</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
+              </table>
+            </div>
+          </article>
+
+          <!-- Bracket D -->
+          <article style="margin-top:16px;">
+            <h2 style="font-size:18px;margin-bottom:4px;">Bracket D</h2>
+            <ul style="padding-left:18px;font-size:14px;margin-bottom:6px;">
+              <li>Match Fit Surf Pre‑ECNL II G15 (NJ)</li>
+              <li>Old Line FC Girls 15 Black (MD)</li>
+              <li>RU Orange Pre ECNL 2 G15 (VA)</li>
+            </ul>
+            <div class="table-wrap">
+              <table class="table" data-bracket="D">
+                <tr><th>Team</th><th>GP</th><th>W</th><th>L</th><th>D</th><th>GF</th><th>GA</th><th>GD</th><th>PTS</th></tr>
+                <tr><td>Match Fit Surf</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
+                <tr><td>Old Line FC</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
+                <tr><td>RU Orange</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
+              </table>
+            </div>
+          </article>
+        </section>
+      </div>
+    </main>
+
+    <footer class="site-footer">
+      TurfVision · Jeff Cup 2026 Premier Division
+    </footer>
+  </div>
+</body>
+</html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>TurfVision – ASIST</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="../styles/global.css">
+  <link rel="stylesheet" href="../styles/neon.css">
+</head>
+<body class="body-neon-yellow">
+  <div class="page-shell">
+    <!-- HEADER -->
+    <header class="site-header">
+      <div class="header-inner">
+        <div class="logo-wrap">
+          <img src="../images/logo.png" alt="TurfVision logo" class="logo-img">
         </div>
+        <nav class="main-nav">
+          <a href="index.html" class="nav-link">Home</a>
+          <a href="teams.html" class="nav-link">Teams</a>
+          <a href="ru.html" class="nav-link">RU Info</a>
+          <a href="jeffcup.html" class="nav-link">Jeff Cup</a>
+          <a href="asist.html" class="nav-link">ASIST</a>
+          <a href="history.html" class="nav-link">History</a>
+        </nav>
       </div>
-    </div>
-  </section>
+    </header>
 
-  <!-- RU INFO -->
-  <section id="ru">
-    <h2>RU Orange Pre ECNL 2 — Info</h2>
+    <main class="page-main">
+      <div class="page-inner">
+        <section class="card card-neon neon-yellow-border fade-up">
+          <h1 class="card-title">ASIST Tournament</h1>
+          <p class="card-subtitle">
+            This page becomes your second tournament hub once brackets and schedules drop.
+          </p>
 
-    <span class="badge">Rankings (Fall)</span>
-    <p>State: <strong>#38 in Virginia</strong><br>National: <strong>#649</strong></p>
+          <div style="margin-top:16px; text-align:center;">
+            <div style="
+              display:inline-block;
+              padding:18px 26px;
+              border-radius:999px;
+              border:1px solid rgba(255,228,94,0.9);
+              box-shadow:0 0 18px rgba(255,228,94,0.8);
+              font-size:20px;
+              font-weight:600;
+            ">
+              ASIST 2026 — Coming Soon
+            </div>
+          </div>
+        </section>
+      </div>
+    </main>
 
-    <span class="badge">Teams You Play / Track</span>
-    <ul>
-      <li>VYS Phoenix Pre ECNL 15G</li>
-      <li>2015 VA Reign Elite Pre ECNL</li>
-      <li>RU Red Pre ECNL 2</li>
-      <li>Great Falls Reston Pre ECNL</li>
-      <li>BRYC Elite Academy G15 Pre ECNL</li>
-    </ul>
-
-    <span class="badge">Jeff Cup 2026 Opponents (Bracket D)</span>
-    <ul>
-      <li>Match Fit Surf Pre‑ECNL II G15 (NJ)</li>
-      <li>Old Line FC Girls 15 Black (MD)</li>
-      <li>RU Orange Pre ECNL 2 G15 (VA)</li>
-    </ul>
-
-    <span class="badge">Scouting Notes (Short)</span>
-    <ul>
-      <li>Stay compact defensively vs. Match Fit and Old Line.</li>
-      <li>Use width and quick switches to create 1v1s wide.</li>
-      <li>On set pieces: track marks tightly, attack first ball hard.</li>
-    </ul>
-  </section>
-
-  <!-- JEFF CUP -->
-  <section id="jeffcup">
-    <h2>Jeff Cup 2026 — Premier Division</h2>
-    <p class="tagline">All standings start at 0 and can be updated as results come in.</p>
-
-    <!-- BRACKET A -->
-    <h3>Bracket A</h3>
-    <ul>
-      <li>Delaware FC 15G Pre ECNL Black (DE)</li>
-      <li>Harrison Wolfpack 2015 (NJ)</li>
-      <li>SEVERNA PARK 15G - GREEN (MD)</li>
-    </ul>
-    <table data-bracket="A">
-      <tr><th>Team</th><th>GP</th><th>W</th><th>L</th><th>D</th><th>GF</th><th>GA</th><th>GD</th><th>PTS</th></tr>
-      <tr><td>Delaware FC</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
-      <tr><td>Harrison Wolfpack</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
-      <tr><td>Severna Park</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
-    </table>
-
-    <!-- BRACKET B -->
-    <h3>Bracket B</h3>
-    <ul>
-      <li>Charlotte SA 15G Charlotte Elite 3 (NC)</li>
-      <li>Lehigh Valley United 2015 Girls Black (PAE)</li>
-      <li>Scorpions SC 2015 State Select Girls (MA)</li>
-    </ul>
-    <table data-bracket="B">
-      <tr><th>Team</th><th>GP</th><th>W</th><th>L</th><th>D</th><th>GF</th><th>GA</th><th>GD</th><th>PTS</th></tr>
-      <tr><td>Charlotte SA</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
-      <tr><td>Lehigh Valley United</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
-      <tr><td>Scorpions SC</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
-    </table>
-
-    <!-- BRACKET C -->
-    <h3>Bracket C</h3>
-    <ul>
-      <li>Bethesda E 2 2015 (MD)</li>
-      <li>BRYC Academy G15 Pre‑ECNL (VA)</li>
-      <li>NCFC Youth 15G Gold North (NC)</li>
-    </ul>
-    <table data-bracket="C">
-      <tr><th>Team</th><th>GP</th><th>W</th><th>L</th><th>D</th><th>GF</th><th>GA</th><th>GD</th><th>PTS</th></tr>
-      <tr><td>Bethesda</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
-      <tr><td>BRYC Academy</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
-      <tr><td>NCFC Youth</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
-    </table>
-
-    <!-- BRACKET D -->
-    <h3>Bracket D</h3>
-    <ul>
-      <li>Match Fit Surf Pre‑ECNL II G15 (NJ)</li>
-      <li>Old Line FC Girls 15 Black (MD)</li>
-      <li>RU Orange Pre ECNL 2 G15 (VA)</li>
-    </ul>
-    <table data-bracket="D">
-      <tr><th>Team</th><th>GP</th><th>W</th><th>L</th><th>D</th><th>GF</th><th>GA</th><th>GD</th><th>PTS</th></tr>
-      <tr><td>Match Fit Surf</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
-      <tr><td>Old Line FC</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
-      <tr><td>RU Orange</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
-    </table>
-  </section>
-
-  <!-- ASIST -->
-  <section id="asist">
-    <h2>ASIST Tournament</h2>
-    <p class="tagline">Once brackets and schedules drop, this section becomes your second tournament hub.</p>
-    <div class="coming">ASIST 2026 — Coming Soon</div>
-  </section>
-
-  <!-- MATCH HISTORY -->
-  <section id="history">
-    <h2>Match History</h2>
-    <p class="tagline">You can expand this with real scores once games are played.</p>
-
-    <div class="teams-grid">
-      <div class="team-card">
-        <div class="team-logo"></div>
-        <div>
-          <div class="team-name">RU Orange vs. VYS Phoenix</div>
-          <div class="team-meta">Recent friendly • Score: TBD • Notes: High tempo, good test.</div>
+    <footer class="site-footer">
+      TurfVision · ASIST tournament hub
+    </footer>
+  </div>
+</body>
+</html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>TurfVision – Match History</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="../styles/global.css">
+  <link rel="stylesheet" href="../styles/neon.css">
+</head>
+<body class="body-neon-purple">
+  <div class="page-shell">
+    <!-- HEADER -->
+    <header class="site-header">
+      <div class="header-inner">
+        <div class="logo-wrap">
+          <img src="../images/logo.png" alt="TurfVision logo" class="logo-img">
         </div>
+        <nav class="main-nav">
+          <a href="index.html" class="nav-link">Home</a>
+          <a href="teams.html" class="nav-link">Teams</a>
+          <a href="ru.html" class="nav-link">RU Info</a>
+          <a href="jeffcup.html" class="nav-link">Jeff Cup</a>
+          <a href="asist.html" class="nav-link">ASIST</a>
+          <a href="history.html" class="nav-link">History</a>
+        </nav>
       </div>
-      <div class="team-card">
-        <div class="team-logo"></div>
-        <div>
-          <div class="team-name">RU Orange vs. BRYC Elite</div>
-          <div class="team-meta">League match • Score: TBD • Notes: Physical game, focus on second balls.</div>
-        </div>
+    </header>
+
+    <main class="page-main">
+      <div class="page-inner">
+        <section class="card card-neon neon-purple-border fade-up">
+          <h1 class="card-title">Match History</h1>
+          <p class="card-subtitle">
+            Expand this with real scores and notes as games are played.
+          </p>
+
+          <div class="grid">
+            <article class="card" style="border-radius:var(--radius-md);">
+              <h2 class="card-title" style="font-size:18px;margin-bottom:4px;">RU Orange vs. VYS Phoenix</h2>
+              <p class="card-subtitle">Recent friendly · Score: TBD</p>
+              <p>High tempo, good test of defensive shape and transition moments.</p>
+            </article>
+
+            <article class="card" style="border-radius:var(--radius-md);">
+              <h2 class="card-title" style="font-size:18px;margin-bottom:4px;">RU Orange vs. BRYC Elite</h2>
+              <p class="card-subtitle">League match · Score: TBD</p>
+              <p>Physical game, focus on winning second balls and managing set pieces.</p>
+            </article>
+
+            <article class="card" style="border-radius:var(--radius-md);">
+              <h2 class="card-title" style="font-size:18px;margin-bottom:4px;">RU Orange vs. Great Falls Reston</h2>
+              <p class="card-subtitle">Scrimmage · Score: TBD</p>
+              <p>Good possession phases; next step is turning chances into goals.</p>
+            </article>
+          </div>
+        </section>
       </div>
-      <div class="team-card">
-        <div class="team-logo"></div>
-        <div>
-          <div class="team-name">RU Orange vs. Great Falls Reston</div>
-          <div class="team-meta">Scrimmage • Score: TBD • Notes: Good possession phases, work on finishing.</div>
-        </div>
-      </div>
-    </div>
-  </section>
+    </main>
 
-</main>
-
-<script>
-  // Hook for future auto-updating standings:
-  // When you have a backend or JSON, you can call updateStandings('A', rows) etc.
-  function updateStandings(bracketId, rows) {
-    const table = document.querySelector(`table[data-bracket="${bracketId}"]`);
-    if (!table) return;
-    // rows = [{team, gp, w, l, d, gf, ga, gd, pts}, ...]
-    // You can replace table rows here later.
-  }
-</script>
-
+    <footer class="site-footer">
+      TurfVision · Match history log
+    </footer>
+  </div>
 </body>
 </html>
